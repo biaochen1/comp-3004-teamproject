@@ -4,3 +4,5 @@ Carleton university comp 3004 winter 2020 team 6
 team project
 
 update Mar 14th 2020
+
+4 use cases: 
