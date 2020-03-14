@@ -57,7 +57,7 @@ DENAS screen lights up
 a) Once button released, the screen will show a time counting grow by seconds.
 5. User applies the machine onto the body part previously indicated to treat symptom. 
 
-Use Case 4:
+Use Case 4: #JOSH
 Basic use case with SETTINGS (set language example):
 1. User press and hold power button of DENAS
 DENAS screen lights up
