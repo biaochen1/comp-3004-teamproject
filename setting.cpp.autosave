@@ -1,0 +1,7 @@
+#include "settingWindow.h"
+
+setting::setting()
+{
+
+}
+
