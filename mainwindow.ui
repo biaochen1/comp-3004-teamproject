@@ -10,6 +10,18 @@
     <height>894</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>401</width>
+    <height>894</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>401</width>
+    <height>894</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -211,6 +223,26 @@
      <string>⭘</string>
     </property>
    </widget>
+   <widget class="QTableView" name="settingMenu">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>10</y>
+      <width>391</width>
+      <height>441</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>settingMenu</zorder>
+   <zorder>mainMenu</zorder>
+   <zorder>backButton</zorder>
+   <zorder>optionButton</zorder>
+   <zorder>upButton</zorder>
+   <zorder>downButton</zorder>
+   <zorder>rightButton</zorder>
+   <zorder>leftButton</zorder>
+   <zorder>enterButton</zorder>
+   <zorder>powerButton</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

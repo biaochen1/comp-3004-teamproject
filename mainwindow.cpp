@@ -4,16 +4,15 @@
 #include <iostream>
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) ,ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     listModel = new QStringListModel(this);
-
     MainPageListModel << "PROGRAMS" << "FREQUENCY" << "MED" << "SCREENING" << "CHILDREN" << "SETTINGS";
 
     listModel->setStringList(MainPageListModel);
+
 
     for (int i = 0; i < MainPageListModel.size(); i++) {
             listModel->setData(listModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
@@ -32,7 +31,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
 
 
+
+
+    settingModel = new QStringListModel(this);
+    SettingPageListModel << "SOUND" << "BRIGHTNESS" << "ECONOMY" << "RECORDING" << "CLOCK" << "ALARM CLOCK" << "LANGUAGE" << "COLOUR";
+    settingModel->setStringList(SettingPageListModel);
+
+        for (int i = 0; i < SettingPageListModel.size(); i++) {
+            settingModel->setData(settingModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
+            settingModel->setData(settingModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
+        }
+
+        ui->settingMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->settingMenu->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+        ui->settingMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui -> settingMenu->horizontalHeader()->hide();
+        ui -> settingMenu->setShowGrid(false);
+        ui -> settingMenu -> setModel(settingModel);
+        ui -> settingMenu->verticalHeader()->hide();
+        ui->settingMenu->selectRow(0);
+
 }
+
+
+
 
 MainWindow::~MainWindow()
 {
@@ -74,7 +98,23 @@ void MainWindow::on_downButton_clicked()
     }
 
     ui->mainMenu->selectRow(nextOption);
-}
+
+
+
+
+
+    int currOption = ui->settingMenu->currentIndex().row();
+
+    int neOption = currOption;
+
+    if(currOption >= 0) {
+        neOption++;
+    }
+
+    ui->settingMenu->selectRow(neOption);
+
+    }
+
 
 
 
@@ -94,24 +134,34 @@ void MainWindow::on_enterButton_clicked()
     int currentOption = ui->mainMenu->currentIndex().row();
 
     cout << "Option Index :" << currentOption << endl;
+    cout << "Main Menu Selection made " << endl;
 
 
-
-    if(!ui->mainMenu->close()){
-
-         cout << "Main Menu Selection made " << endl;
-
-         ui->mainMenu->close();
-    }
-
+         if (currentOption == 5){
+             cout << "Settings Chosen" << endl;
+             ui->mainMenu->close();
+         }
 
 }
 
 void MainWindow::on_rightButton_clicked()
 {
 
+    cout << "Right Button" << endl;
 
 
 
 
+
+
+}
+
+void MainWindow::on_backButton_clicked()
+{
+
+    cout << "Back Button" << endl;
+    if(ui->mainMenu->close()){
+
+        ui->mainMenu->show();
+    }
 }
