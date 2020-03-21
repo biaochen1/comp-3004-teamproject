@@ -43,6 +43,7 @@ void MainWindow::on_powerButton_clicked()
 {
 
 cout << "Power Button" << endl;
+exit(0);
 }
 
 void MainWindow::on_upButton_clicked()
@@ -93,5 +94,24 @@ void MainWindow::on_enterButton_clicked()
     int currentOption = ui->mainMenu->currentIndex().row();
 
     cout << "Option Index :" << currentOption << endl;
+
+
+
+    if(!ui->mainMenu->close()){
+
+         cout << "Main Menu Selection made " << endl;
+
+         ui->mainMenu->close();
+    }
+
+
+}
+
+void MainWindow::on_rightButton_clicked()
+{
+
+
+
+
 
 }

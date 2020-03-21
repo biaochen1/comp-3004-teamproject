@@ -28,6 +28,8 @@ private slots:
 
     void on_enterButton_clicked();
 
+    void on_rightButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QStringListModel *listModel;
