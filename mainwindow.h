@@ -15,12 +15,6 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void populateSettingMenuView(QWidget *parent = 0);
-    void populateMainMenuView();
-
-
-
-
     ~MainWindow();
 
 private slots:
@@ -38,12 +32,15 @@ private slots:
 
     void on_backButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     QStringListModel *listModel;
     QStringListModel *settingModel;
-    QStringList MainPageListModel;
+    QStringList MainPageListModelEnglish;
+    QStringList MainPageListModelFrench;
     QStringList SettingPageListModel;
+    QStringList SettingPageListModelFrench;
 };
 
 #endif // MAINWINDOW_H
