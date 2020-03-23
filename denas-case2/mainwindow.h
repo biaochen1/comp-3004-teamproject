@@ -20,11 +20,11 @@ private:
 
 private slots:
     void arrowButtonPressed();
-    //void powerButtonPressed();
-    //void returnButtonPressed();
-    //void okButtonPressed();
-    //void mainMenuButtonPressed();
-
+    void powerButtonPressed();
+    void returnButtonPressed();
+    void okButtonPressed();
+    void mainMenuButtonPressed();
+    void treatmentActive();
 };
 
 #endif // MAINWINDOW_H
