@@ -21,9 +21,25 @@ private slots:
 
     void on_upButton_clicked();
 
+    void on_powerButton_released();
+
+    void on_returnButton_clicked();
+
+    void on_mainMenuButton_clicked();
+
+    void on_confirmButton_released();
+
 private:
     Ui::DenaSimulator *ui;
-    QStringListModel *model;
-    QStringList MainPageList;
+    void treatmentActive();
+    QStringListModel *mainMenuModel;
+    QStringListModel *settingModel;
+    QStringList MainPageListModelEnglish;
+    QStringList MainPageListModelFrench;
+    QStringList SettingPageListModel;
+    QStringList SettingPageListModelFrench;
+    QStringListModel *freqModel;
+    QStringList FreqPageEnglish;
+    QStringList FreqPageFrench;
 };
 #endif // DENASIMULATOR_H
