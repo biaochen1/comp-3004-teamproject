@@ -17,16 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    denasimulator.cpp
+    denas_2.cpp
 
 HEADERS += \
-    denasimulator.h
+    denas_2.h
 
 FORMS += \
-    denasimulator.ui
-
-TRANSLATIONS += \
-    DenaSimulator_en_US.ts
+    denas_2.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
