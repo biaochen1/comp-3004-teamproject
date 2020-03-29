@@ -25,14 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+        denasimulator.cpp \
+        main.cpp
 
 HEADERS += \
-        mainwindow.h
+    denasimulator.h
 
 FORMS += \
-        mainwindow.ui
+    denasimulator.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
