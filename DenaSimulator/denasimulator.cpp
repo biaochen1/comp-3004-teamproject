@@ -61,8 +61,8 @@ void DenaSimulator::init_med_page(){
 void DenaSimulator::init_main_page(){
     mainMenuModel = new QStringListModel(this);
     MainPageListModelEnglish << "PROGRAMS" << "FREQUENCY" << "MED" << "SCREENING" << "CHILDREN" << "SETTINGS";    // English options
-    MainPageListModelFrench << "PROGRAMMES" << "LA FRÉQUENCE" << "MED" << "DÉPISTAGE" << "ENFANTS" << "RÉGLAGES"; // French options
-    MainPageListModelSpanish << "PROGRAMAS"<< "FRECUENCIA"<< "MED"<< "EVALUACIÓN"<< "NIÑOS"<< "AJUSTES";
+    MainPageListModelFrench << "PROGRAMMES" << "LA FRÉQUENCE" << "DEM" << "DÉPISTAGE" << "ENFANTS" << "RÉGLAGES"; // French options
+    MainPageListModelSpanish << "PROGRAMAS"<< "FRECUENCIA"<< "DEM"<< "EVALUACIÓN"<< "NIÑOS"<< "AJUSTES";
 
     mainMenuModel->setStringList(MainPageListModelEnglish);
 
