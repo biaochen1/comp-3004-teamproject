@@ -6,14 +6,16 @@ using namespace std;
 
 const int OFF_STATE = 0;
 const int ON_STATE = 1;
+
+
 const int MAIN_MENUS_PAGE = 0;
+const int PROGRAM_PAGE = 10;
 const int MED_PAGE = 20;
 const int TREATMENT_PAGE = 21;
-const int PROGRAM_PAGE = 10;
 const int FREQUENCY_PAGE = 30;
 const int SETTIGNS_PAGE = 40;
 
-static int currState = ON_STATE;
+static int POWER_STATE = ON_STATE;
 static int currMenuOption = 0;
 static int currentPage = 0;
 
@@ -26,6 +28,34 @@ DenaSimulator::DenaSimulator(QWidget *parent)
 {
     ui->setupUi(this);
 
+    init_main_page();
+
+    init_frequency_page();
+
+    init_settings_page();
+
+    init_programs_page();
+
+    init_med_page();
+
+    ui->powerWidget->setVisible(false);
+    ui->powerLabel->setAlignment(Qt::AlignCenter);
+
+
+    ui->treatmentWidget->setVisible(false);
+    ui->counterLabel->setAlignment(Qt::AlignCenter);
+}
+
+DenaSimulator::~DenaSimulator()
+{
+    delete ui;
+}
+
+void DenaSimulator::init_med_page(){
+
+}
+
+void DenaSimulator::init_main_page(){
     mainMenuModel = new QStringListModel(this);
     MainPageListModelEnglish << "PROGRAMS" << "FREQUENCY" << "MED" << "SCREENING" << "CHILDREN" << "SETTINGS";
     MainPageListModelFrench << "PROGRAMMES" << "LA FRÉQUENCE" << "MED" << "DÉPISTAGE" << "ENFANTS" << "RÉGLAGES";
@@ -45,7 +75,64 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui -> mainMenu -> setModel(mainMenuModel);
 
     ui->mainMenu->selectRow(0);
+}
 
+void DenaSimulator::init_frequency_page() {
+    freqModel = new QStringListModel(this);
+    FreqPageEnglish << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz"
+                    << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
+    FreqPageFrench << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz"
+                   << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
+
+    freqModel->setStringList(FreqPageEnglish);
+
+    for (int i = 0; i < FreqPageEnglish.size(); i++) {
+        freqModel->setData(freqModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
+        freqModel->setData(freqModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
+    }
+
+    ui->freqMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->freqMenu->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+    ui->freqMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui -> freqMenu->horizontalHeader()->hide();
+    ui -> freqMenu->setShowGrid(false);
+    ui -> freqMenu -> setModel(freqModel);
+    ui -> freqMenu->verticalHeader()->hide();
+    ui->freqMenu->selectRow(0);
+    ui->freqMenu->close(); // by default hiding this one
+}
+
+
+void DenaSimulator::init_programs_page(){
+    programMenuModel = new QStringListModel(this);
+    ProgramPageListModelEnglish << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
+                                << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
+    ProgramPageListModelFrench << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
+                               << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
+    programMenuModel->setStringList(ProgramPageListModelEnglish);
+
+    for (int i = 0; i < ProgramPageListModelEnglish.size(); i++) {
+        programMenuModel->setData(programMenuModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
+        programMenuModel->setData(programMenuModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
+    }
+
+    ui -> programMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui -> programMenu->verticalHeader()->hide();
+    ui -> programMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui -> programMenu->horizontalHeader()->hide();
+    ui -> programMenu->setShowGrid(false);
+
+    ui -> programMenu -> setModel(programMenuModel);
+
+    ui->programMenu->selectRow(0);
+    ui->programMenu->close();
+}
+
+
+void DenaSimulator::init_settings_page()
+{
     settingModel = new QStringListModel(this);
     SettingPageListModel << "SOUND" << "BRIGHTNESS" << "ECONOMY" << "RECORDING" << "CLOCK" << "ALARM CLOCK" << "LANGUAGE" << "COLOUR";
     SettingPageListModelFrench << "DU SON" << "LUMINOSITÉ" << "ÉCONOMIE" << "ENREGISTREMENT" << "L'HORLOGE" << "RÉVEIL" << "LANGUE" << "COULEUR";
@@ -68,184 +155,257 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui -> settingsMenu->verticalHeader()->hide();
     ui->settingsMenu->selectRow(0);
     ui->settingsMenu->close(); // by default hiding this one
-
-    freqModel = new QStringListModel(this);
-    FreqPageEnglish << "Symptom 1" << "Symptom 2" << "Symptom 3" << "Symptom 4"
-                    << "Symptom 5" << "7720";
-    FreqPageFrench << "Symptom 1" << "Symptom 2" << "Symptom 3" << "Symptom 4"
-                   << "Symptom 5" << "7720";
-
-    freqModel->setStringList(FreqPageEnglish);
-
-    for (int i = 0; i < FreqPageEnglish.size(); i++) {
-        freqModel->setData(freqModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
-        freqModel->setData(freqModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
-    }
-
-    ui->freqMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->freqMenu->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-
-    ui->freqMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui -> freqMenu->horizontalHeader()->hide();
-    ui -> freqMenu->setShowGrid(false);
-    ui -> freqMenu -> setModel(freqModel);
-    ui -> freqMenu->verticalHeader()->hide();
-    ui->freqMenu->selectRow(0);
-    ui->freqMenu->close(); // by default hiding this one
-}
-
-DenaSimulator::~DenaSimulator()
-{
-    delete ui;
 }
 
 void DenaSimulator::on_downButton_clicked()
 {
+    QTableView *curView = ui->mainMenu;
+    QStringList curList = MainPageListModelEnglish;
     if(!ui->mainMenu->isHidden()){
-        int currentRow = ui->mainMenu->currentIndex().row();
-
-        int futureRow = currentRow;
-
-        if(currentRow < MainPageListModelEnglish.size() - 1) {
-            futureRow++;
-        }
-
-        ui->mainMenu->selectRow(futureRow);
+        curList = MainPageListModelEnglish;
+        curView = ui->mainMenu;
+    }
+    else  if(!ui->settingsMenu->isHidden()){
+        curList = SettingPageListModel;
+        curView = ui->settingsMenu;
+    } else if(!ui->freqMenu->isHidden()){
+        curList = FreqPageEnglish;
+        curView = ui->freqMenu;
+    }else if (!ui -> programMenu -> isHidden()) {
+        curView = ui->programMenu;
+        curList =ProgramPageListModelEnglish;
     }
 
-    if(!ui->settingsMenu->isHidden()){
-        int currentRow = ui->settingsMenu->currentIndex().row();
+    int currentRow = curView->currentIndex().row();
+    int futureRow = currentRow;
 
-        int futureRow = currentRow;
-
-        if(currentRow < SettingPageListModel.size() - 1) {
-            futureRow++;
-        }
-
-        ui->settingsMenu->selectRow(futureRow);
+    if(currentRow < curList.size() - 1) {
+        futureRow++;
     }
 
-    if(!ui->freqMenu->isHidden()){
-        int currentRow = ui->freqMenu->currentIndex().row();
+    curView->selectRow(futureRow);
+    //    delete(curView);
+    //    if(!ui->mainMenu->isHidden()){
+    //        int currentRow = ui->mainMenu->currentIndex().row();
 
-        int futureRow = currentRow;
+    //        int futureRow = currentRow;
 
-        if(currentRow < FreqPageEnglish.size() - 1) {
-            futureRow++;
-        }
+    //        if(currentRow < MainPageListModelEnglish.size() - 1) {
+    //            futureRow++;
+    //        }
 
-        ui->freqMenu->selectRow(futureRow);
-    }
+    //        ui->mainMenu->selectRow(futureRow);
+    //    }
+
+    //    if(!ui->settingsMenu->isHidden()){
+    //        int currentRow = ui->settingsMenu->currentIndex().row();
+
+    //        int futureRow = currentRow;
+
+    //        if(currentRow < SettingPageListModel.size() - 1) {
+    //            futureRow++;
+    //        }
+
+    //        ui->settingsMenu->selectRow(futureRow);
+    //    }
+
+    //    if(!ui->freqMenu->isHidden()){
+    //        int currentRow = ui->freqMenu->currentIndex().row();
+
+    //        int futureRow = currentRow;
+
+    //        if(currentRow < FreqPageEnglish.size() - 1) {
+    //            futureRow++;
+    //        }
+
+    //        ui->freqMenu->selectRow(futureRow);
+    //    }
 }
 
 void DenaSimulator::on_upButton_clicked()
 {
+    QTableView *curView = ui->mainMenu;
+
     if(!ui->mainMenu->isHidden()){
-        int currentRow = ui->mainMenu->currentIndex().row();
-
-        int futureRow = currentRow;
-
-        if(currentRow > 0) {
-            futureRow--;
-        }
-
-        ui->mainMenu->selectRow(futureRow);
+        curView = ui->mainMenu;
+    }
+    else if(!ui->settingsMenu->isHidden()){
+        curView = ui->settingsMenu;
+    } else if (!ui -> freqMenu -> isHidden()) {
+        curView = ui->freqMenu;
+    } else if (!ui -> programMenu -> isHidden()) {
+        curView = ui->programMenu;
     }
 
-    if(!ui->freqMenu->isHidden()){
-        int currentRow = ui->freqMenu->currentIndex().row();
+    int currentRow = curView->currentIndex().row();
+    int futureRow = currentRow;
 
-        int futureRow = currentRow;
-
-        if(currentRow > 0) {
-            futureRow--;
-        }
-
-        ui->freqMenu->selectRow(futureRow);
+    if(currentRow >0) {
+        futureRow--;
     }
 
-    if(!ui->settingsMenu->isHidden()){
-        int currentRow = ui->settingsMenu->currentIndex().row();
+    curView->selectRow(futureRow);
 
-        int futureRow = currentRow;
+    //    delete(curView);
 
-        if(currentRow > 0) {
-            futureRow--;
-        }
+    //    if(!ui->mainMenu->isHidden()){
+    //        int currentRow = ui->mainMenu->currentIndex().row();
 
-        ui->settingsMenu->selectRow(futureRow);
-    }
+    //        int futureRow = currentRow;
+
+    //        if(currentRow > 0) {
+    //            futureRow--;
+    //        }
+
+    //        ui->mainMenu->selectRow(futureRow);
+    //    }
+
+    //    if(!ui->freqMenu->isHidden()){
+    //        int currentRow = ui->freqMenu->currentIndex().row();
+
+    //        int futureRow = currentRow;
+
+    //        if(currentRow > 0) {
+    //            futureRow--;
+    //        }
+
+    //        ui->freqMenu->selectRow(futureRow);
+    //    }
+
+    //    if(!ui->settingsMenu->isHidden()){
+    //        int currentRow = ui->settingsMenu->currentIndex().row();
+
+    //        int futureRow = currentRow;
+
+    //        if(currentRow > 0) {
+    //            futureRow--;
+    //        }
+
+    //        ui->settingsMenu->selectRow(futureRow);
+    //    }
 }
 
 
 void DenaSimulator::on_powerButton_released()
 {
     cout << "Power Button" << endl;
-    if (currState == OFF_STATE) {
-        currState = MAIN_MENUS_PAGE;
+    if (POWER_STATE == OFF_STATE) {
+        POWER_STATE = ON_STATE;
+        currentPage = MAIN_MENUS_PAGE;
         //change the display to show menus
+        ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
     }
     else {
-        currState = OFF_STATE;
+        POWER_STATE = OFF_STATE;
         //change the display to show black screen
         ui->mainMenu->close();
         ui->settingsMenu->close();
         ui->freqMenu->close();
+        ui->programMenu->close();
+        ui->powerWidget->close();
+
     }
 }
 
 void DenaSimulator::on_returnButton_clicked()
 {
-    if (currState != OFF_STATE){
-        currState -= 1;
+    if (currentPage != OFF_STATE){
+        currentPage -= 1;
         //change the display to previous screen
     }
 }
 
 void DenaSimulator::on_mainMenuButton_clicked()
 {
-    if (currState != OFF_STATE) {
-        currState = MAIN_MENUS_PAGE;
+    if (currentPage != OFF_STATE) {
+        currentPage = MAIN_MENUS_PAGE;
+        ui->mainMenu->hide();
+        ui->settingsMenu->hide();
+        ui->freqMenu->hide();
+        ui->programMenu->hide();
+        ui->powerWidget->hide();
+
+        ui->mainMenu->selectRow(0);
+        ui->mainMenu->show();
         //change the display to the main menu
     }
 }
 
 void DenaSimulator::treatmentActive(){
-    if (currState==MED_PAGE) {
-        currState = TREATMENT_PAGE;
+    if (currentPage==MED_PAGE) {
+        currentPage = TREATMENT_PAGE;
     }
-    if (currState == TREATMENT_PAGE) {
+    if (currentPage == TREATMENT_PAGE) {
         //update the timer as the treatment button is held down
     }
 }
 
-void DenaSimulator::on_confirmButton_released()
-{
-    if (currMenuOption == 2) {
-        currState = MED_PAGE;
-        //change the display to the med screen
-    }
-
-    cout << "Enter Button | ";
-    int currentOption = ui->mainMenu->currentIndex().row();
-
-
-    cout << "Option Index :" << currentOption << endl;
-
+void DenaSimulator::handle_main_page_selection(int currentOption){
     if(currentOption == 1 && currentPage == MAIN_MENUS_PAGE){
         cout << "Frequency Chosen" << endl;
-        ui->mainMenu->close();
+
+        ui->mainMenu->hide();
         ui->freqMenu->show();
         currentPage = FREQUENCY_PAGE;
     }
     else if (currentOption == 5 && currentPage == MAIN_MENUS_PAGE){
         cout << "Settings Chosen" << endl;
 
-        ui->mainMenu->close();
-
+        ui->mainMenu->hide();
         ui->settingsMenu->show();
         currentPage = SETTIGNS_PAGE;
+    } else if(currentOption == 2){
+        currentPage = MED_PAGE;
+        //change the display to the med screen
+    } else if (currentOption == 0) {
+        ui->mainMenu->hide();
+        ui->programMenu->show();
+        currentPage = PROGRAM_PAGE;
+    }
+}
+
+void DenaSimulator::on_confirmButton_released()
+{
+    if(currentPage == MAIN_MENUS_PAGE) {
+        cout << "Enter Button | ";
+        int currentOption = ui->mainMenu->currentIndex().row();
+
+
+        cout << "Option Index :" << currentOption << endl;
+        handle_main_page_selection(currentOption);
+    } else if (currentPage == PROGRAM_PAGE) {
+        ui->programMenu->hide();
+        ui->powerWidget->show();
+        ui->powerLine->setText("1");
+    }
+}
+
+void DenaSimulator::on_rightButton_clicked()
+{
+    if (currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()) {
+        int power = ui->powerLine->text().toInt();
+        if(power < 40){
+            ui->powerLine->setText(QString::number(power +1));
+        }
+    }
+}
+
+void DenaSimulator::setCountdown(){
+    countdownTime->setHMS (0, countdownTime->addSecs (-1).minute (), countdownTime->addSecs (-1).second ());
+
+    ui->timerText->setText(countdownTime->toString());
+}
+
+void DenaSimulator::on_touchSkinButton_clicked()
+{
+    if(currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()){
+        ui->powerWidget->hide();
+        ui->treatmentWidget->show();
+        countdownTimer = new QTimer ();
+        countdownTime = new QTime (0, 10, 59);
+
+        QObject :: connect (countdownTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
+        countdownTimer->start(1000);
     }
 }
