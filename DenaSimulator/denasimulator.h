@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
+#include <QTimer>
+#include <QTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class DenaSimulator; }
@@ -29,17 +31,40 @@ private slots:
 
     void on_confirmButton_released();
 
+    void init_settings_page();
+
+    void init_programs_page();
+
+    void init_frequency_page();
+
+    void init_med_page();
+
+    void init_main_page();
+
+    void handle_main_page_selection(int currentOption);
+
+    void on_rightButton_clicked();
+
+    void setCountdown();
+
+    void on_touchSkinButton_clicked();
+
 private:
     Ui::DenaSimulator *ui;
     void treatmentActive();
     QStringListModel *mainMenuModel;
+    QStringListModel *programMenuModel;
     QStringListModel *settingModel;
     QStringList MainPageListModelEnglish;
     QStringList MainPageListModelFrench;
+    QStringList ProgramPageListModelEnglish;
+    QStringList ProgramPageListModelFrench;
     QStringList SettingPageListModel;
     QStringList SettingPageListModelFrench;
     QStringListModel *freqModel;
     QStringList FreqPageEnglish;
     QStringList FreqPageFrench;
+    QTimer *countdownTimer;
+    QTime *countdownTime;
 };
 #endif // DENASIMULATOR_H
