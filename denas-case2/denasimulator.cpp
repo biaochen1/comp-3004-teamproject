@@ -96,6 +96,9 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui->freqMenu->selectRow(0);
     ui->freqMenu->close(); // by default hiding this one
 
+    ui->medMenu->setRange(1, 10);
+    ui->medMenu->setValue(1);
+    ui->medMenu->setFormat("%v");
     ui->medMenu->close();
     ui->treatmentTimer->close();
 }
@@ -183,6 +186,25 @@ void DenaSimulator::on_upButton_clicked()
     }
 }
 
+void DenaSimulator::on_leftButton_clicked()
+{
+    if (currentPage == MED_PAGE) {
+        int power = ui->medMenu->value();
+        if (power > ui->medMenu->minimum()) {
+            ui->medMenu->setValue(power - 1);
+        }
+    }
+}
+
+void DenaSimulator::on_rightButton_clicked()
+{
+    if (currentPage == MED_PAGE) {
+        int power = ui->medMenu->value();
+        if (power < ui->medMenu->maximum()) {
+            ui->medMenu->setValue(power + 1);
+        }
+    }
+}
 
 void DenaSimulator::on_powerButton_released()
 {
@@ -284,7 +306,7 @@ void DenaSimulator::on_confirmButton_released()
         ui->freqMenu->show();
         currentPage = FREQUENCY_PAGE;
     }
-    else if (currMenuOption == 2 && currentPage == MAIN_MENUS_PAGE) {
+    else if (currentOption == 2 && currentPage == MAIN_MENUS_PAGE) {
         cout << "MED Chosen" << endl;
         ui->mainMenu->close();
         ui->medMenu->show();

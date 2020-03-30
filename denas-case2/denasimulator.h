@@ -22,6 +22,10 @@ private slots:
 
     void on_upButton_clicked();
 
+    void on_leftButton_clicked();
+
+    void on_rightButton_clicked();
+
     void on_powerButton_released();
 
     void on_returnButton_clicked();
