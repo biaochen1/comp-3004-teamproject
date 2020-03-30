@@ -39,6 +39,8 @@ private slots:
 
     void init_med_page();
 
+    void init_language_page();
+
     void init_main_page();
 
     void handle_main_page_selection(int currentOption);
@@ -46,6 +48,8 @@ private slots:
     void on_rightButton_clicked();
 
     void setCountdown();
+
+    void setLanguage(int languageOption);
 
     void on_touchSkinButton_clicked();
 
@@ -55,12 +59,14 @@ private:
     QStringListModel *mainMenuModel;
     QStringListModel *programMenuModel;
     QStringListModel *settingModel;
+    QStringListModel *languageModel;
     QStringList MainPageListModelEnglish;
     QStringList MainPageListModelFrench;
     QStringList ProgramPageListModelEnglish;
     QStringList ProgramPageListModelFrench;
     QStringList SettingPageListModel;
     QStringList SettingPageListModelFrench;
+    QStringList LanguagePageListModel;
     QStringListModel *freqModel;
     QStringList FreqPageEnglish;
     QStringList FreqPageFrench;

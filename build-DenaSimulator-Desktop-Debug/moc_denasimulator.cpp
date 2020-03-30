@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_DenaSimulator_t {
-    QByteArrayData data[18];
-    char stringdata0[348];
+    QByteArrayData data[21];
+    char stringdata0[394];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,12 +41,15 @@ QT_MOC_LITERAL(8, 157, 18), // "init_settings_page"
 QT_MOC_LITERAL(9, 176, 18), // "init_programs_page"
 QT_MOC_LITERAL(10, 195, 19), // "init_frequency_page"
 QT_MOC_LITERAL(11, 215, 13), // "init_med_page"
-QT_MOC_LITERAL(12, 229, 14), // "init_main_page"
-QT_MOC_LITERAL(13, 244, 26), // "handle_main_page_selection"
-QT_MOC_LITERAL(14, 271, 13), // "currentOption"
-QT_MOC_LITERAL(15, 285, 22), // "on_rightButton_clicked"
-QT_MOC_LITERAL(16, 308, 12), // "setCountdown"
-QT_MOC_LITERAL(17, 321, 26) // "on_touchSkinButton_clicked"
+QT_MOC_LITERAL(12, 229, 18), // "init_language_page"
+QT_MOC_LITERAL(13, 248, 14), // "init_main_page"
+QT_MOC_LITERAL(14, 263, 26), // "handle_main_page_selection"
+QT_MOC_LITERAL(15, 290, 13), // "currentOption"
+QT_MOC_LITERAL(16, 304, 22), // "on_rightButton_clicked"
+QT_MOC_LITERAL(17, 327, 12), // "setCountdown"
+QT_MOC_LITERAL(18, 340, 11), // "setLanguage"
+QT_MOC_LITERAL(19, 352, 14), // "languageOption"
+QT_MOC_LITERAL(20, 367, 26) // "on_touchSkinButton_clicked"
 
     },
     "DenaSimulator\0on_downButton_clicked\0"
@@ -55,9 +58,10 @@ QT_MOC_LITERAL(17, 321, 26) // "on_touchSkinButton_clicked"
     "on_mainMenuButton_clicked\0"
     "on_confirmButton_released\0init_settings_page\0"
     "init_programs_page\0init_frequency_page\0"
-    "init_med_page\0init_main_page\0"
-    "handle_main_page_selection\0currentOption\0"
-    "on_rightButton_clicked\0setCountdown\0"
+    "init_med_page\0init_language_page\0"
+    "init_main_page\0handle_main_page_selection\0"
+    "currentOption\0on_rightButton_clicked\0"
+    "setCountdown\0setLanguage\0languageOption\0"
     "on_touchSkinButton_clicked"
 };
 #undef QT_MOC_LITERAL
@@ -68,7 +72,7 @@ static const uint qt_meta_data_DenaSimulator[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -76,21 +80,23 @@ static const uint qt_meta_data_DenaSimulator[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   89,    2, 0x08 /* Private */,
-       3,    0,   90,    2, 0x08 /* Private */,
-       4,    0,   91,    2, 0x08 /* Private */,
-       5,    0,   92,    2, 0x08 /* Private */,
-       6,    0,   93,    2, 0x08 /* Private */,
-       7,    0,   94,    2, 0x08 /* Private */,
-       8,    0,   95,    2, 0x08 /* Private */,
-       9,    0,   96,    2, 0x08 /* Private */,
-      10,    0,   97,    2, 0x08 /* Private */,
-      11,    0,   98,    2, 0x08 /* Private */,
-      12,    0,   99,    2, 0x08 /* Private */,
-      13,    1,  100,    2, 0x08 /* Private */,
-      15,    0,  103,    2, 0x08 /* Private */,
-      16,    0,  104,    2, 0x08 /* Private */,
-      17,    0,  105,    2, 0x08 /* Private */,
+       1,    0,   99,    2, 0x08 /* Private */,
+       3,    0,  100,    2, 0x08 /* Private */,
+       4,    0,  101,    2, 0x08 /* Private */,
+       5,    0,  102,    2, 0x08 /* Private */,
+       6,    0,  103,    2, 0x08 /* Private */,
+       7,    0,  104,    2, 0x08 /* Private */,
+       8,    0,  105,    2, 0x08 /* Private */,
+       9,    0,  106,    2, 0x08 /* Private */,
+      10,    0,  107,    2, 0x08 /* Private */,
+      11,    0,  108,    2, 0x08 /* Private */,
+      12,    0,  109,    2, 0x08 /* Private */,
+      13,    0,  110,    2, 0x08 /* Private */,
+      14,    1,  111,    2, 0x08 /* Private */,
+      16,    0,  114,    2, 0x08 /* Private */,
+      17,    0,  115,    2, 0x08 /* Private */,
+      18,    1,  116,    2, 0x08 /* Private */,
+      20,    0,  119,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -104,9 +110,11 @@ static const uint qt_meta_data_DenaSimulator[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   15,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   19,
     QMetaType::Void,
 
        0        // eod
@@ -128,11 +136,13 @@ void DenaSimulator::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 7: _t->init_programs_page(); break;
         case 8: _t->init_frequency_page(); break;
         case 9: _t->init_med_page(); break;
-        case 10: _t->init_main_page(); break;
-        case 11: _t->handle_main_page_selection((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 12: _t->on_rightButton_clicked(); break;
-        case 13: _t->setCountdown(); break;
-        case 14: _t->on_touchSkinButton_clicked(); break;
+        case 10: _t->init_language_page(); break;
+        case 11: _t->init_main_page(); break;
+        case 12: _t->handle_main_page_selection((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: _t->on_rightButton_clicked(); break;
+        case 14: _t->setCountdown(); break;
+        case 15: _t->setLanguage((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 16: _t->on_touchSkinButton_clicked(); break;
         default: ;
         }
     }
@@ -163,13 +173,13 @@ int DenaSimulator::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 17)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 15;
+        _id -= 17;
     }
     return _id;
 }

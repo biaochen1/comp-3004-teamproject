@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
+    <width>446</width>
     <height>978</height>
    </rect>
   </property>
@@ -302,14 +302,45 @@
  start</string>
     </property>
    </widget>
+   <widget class="QTableView" name="languageMenu">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>281</width>
+      <height>421</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>downButton</zorder>
+   <zorder>rightButton</zorder>
+   <zorder>upButton</zorder>
+   <zorder>mainMenu</zorder>
+   <zorder>leftButton</zorder>
+   <zorder>confirmButton</zorder>
+   <zorder>powerButton</zorder>
+   <zorder>returnButton</zorder>
+   <zorder>mainMenuButton</zorder>
+   <zorder>settingsMenu</zorder>
+   <zorder>freqMenu</zorder>
+   <zorder>powerWidget</zorder>
+   <zorder>programMenu</zorder>
+   <zorder>treatmentWidget</zorder>
+   <zorder>touchSkinButton</zorder>
+   <zorder>powerLabel</zorder>
+   <zorder>powerLine</zorder>
+   <zorder>counterLabel</zorder>
+   <zorder>powerLabel</zorder>
+   <zorder>powerLine</zorder>
+   <zorder>languageMenu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>494</width>
-     <height>37</height>
+     <width>446</width>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDENA2">

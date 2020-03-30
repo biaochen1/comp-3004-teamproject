@@ -14,6 +14,7 @@ const int MED_PAGE = 20;
 const int TREATMENT_PAGE = 21;
 const int FREQUENCY_PAGE = 30;
 const int SETTIGNS_PAGE = 40;
+const int LANGUAGE_PAGE = 50;
 
 static int POWER_STATE = ON_STATE;
 static int currMenuOption = 0;
@@ -37,6 +38,8 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     init_programs_page();
 
     init_med_page();
+
+    init_language_page();
 
     ui->powerWidget->setVisible(false);
     ui->powerLabel->setAlignment(Qt::AlignCenter);
@@ -157,6 +160,34 @@ void DenaSimulator::init_settings_page()
     ui->settingsMenu->close(); // by default hiding this one
 }
 
+void DenaSimulator::init_language_page(){
+    languageModel = new QStringListModel(this);
+    LanguagePageListModel << "ENGLISH" << "FRANÇAIS" << "РУССКИЙ" << "NEDERLANDS";
+
+    languageModel->setStringList(LanguagePageListModel);
+
+    for (int i = 0; i < LanguagePageListModel.size(); i++) {
+        languageModel->setData(languageModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
+        languageModel->setData(languageModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
+    }
+
+    ui->languageMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->languageMenu->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+    ui->languageMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui -> languageMenu->horizontalHeader()->hide();
+    ui -> languageMenu->setShowGrid(false);
+    ui -> languageMenu -> setModel(languageModel);
+    ui -> languageMenu->verticalHeader()->hide();
+    ui->languageMenu->selectRow(0);
+    ui->languageMenu->close(); // by default hiding this one
+
+
+
+
+}
+
 void DenaSimulator::on_downButton_clicked()
 {
     QTableView *curView = ui->mainMenu;
@@ -174,6 +205,9 @@ void DenaSimulator::on_downButton_clicked()
     }else if (!ui -> programMenu -> isHidden()) {
         curView = ui->programMenu;
         curList =ProgramPageListModelEnglish;
+    }else if (!ui -> languageMenu -> isHidden()) {
+        curView = ui->languageMenu;
+        curList =LanguagePageListModel;
     }
 
     int currentRow = curView->currentIndex().row();
@@ -182,6 +216,7 @@ void DenaSimulator::on_downButton_clicked()
     if(currentRow < curList.size() - 1) {
         futureRow++;
     }
+
 
     curView->selectRow(futureRow);
 }
@@ -199,6 +234,8 @@ void DenaSimulator::on_upButton_clicked()
         curView = ui->freqMenu;
     } else if (!ui -> programMenu -> isHidden()) {
         curView = ui->programMenu;
+    }else if (!ui -> languageMenu -> isHidden()) {
+        curView = ui->languageMenu;
     }
 
     int currentRow = curView->currentIndex().row();
@@ -268,6 +305,7 @@ void DenaSimulator::on_powerButton_released()
         ui->freqMenu->close();
         ui->programMenu->close();
         ui->powerWidget->close();
+        ui->languageMenu->close();
 
     }
 }
@@ -276,7 +314,6 @@ void DenaSimulator::on_returnButton_clicked()
 {
 
     cout << currentPage << endl;
-
 
     if(ui->mainMenu->isHidden() && ui->settingsMenu->isHidden() && ui->programMenu->isHidden()){
         cout << "Frequency Menu -> Main Menu" << endl;
@@ -297,8 +334,9 @@ void DenaSimulator::on_returnButton_clicked()
         currentPage = MAIN_MENUS_PAGE;
         ui->programMenu->hide();
         ui->mainMenu->show();
-
     }
+
+    //STILL NEED TO IMPLEMENT RETURN FOR LANGUAGE MENU
 
 
 
@@ -317,6 +355,7 @@ void DenaSimulator::on_mainMenuButton_clicked()
         ui->freqMenu->hide();
         ui->programMenu->hide();
         ui->powerWidget->hide();
+        ui->languageMenu->hide();
 
         ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
@@ -374,6 +413,19 @@ void DenaSimulator::on_confirmButton_released()
         ui->powerWidget->show();
         ui->powerLine->setText("1");
     }
+    else if(currentPage == SETTIGNS_PAGE) {
+        ui->settingsMenu->hide();
+        ui->languageMenu->show();
+        currentPage = LANGUAGE_PAGE; // Set the Current Page to LANGUAGE_PAGE = 50;
+    }else if(currentPage == LANGUAGE_PAGE) {
+        cout << currentPage << endl;
+        currentPage = SETTIGNS_PAGE; // Set the Current Page to back to SETTIGNS_PAGE = 40; DOESNT WORK MOST OF THE TIME!!!
+        int currentOptionLang = ui->languageMenu->currentIndex().row();
+        cout << "Option Chosen -" << currentOptionLang << endl;
+        setLanguage(currentOptionLang);
+        ui->languageMenu->hide();
+        ui->settingsMenu->show();
+    }
 }
 
 void DenaSimulator::on_rightButton_clicked()
@@ -384,6 +436,24 @@ void DenaSimulator::on_rightButton_clicked()
             ui->powerLine->setText(QString::number(power +1));
         }
     }
+}
+
+void DenaSimulator::setLanguage(int languageOption){
+    if(languageOption == 0){
+        cout << "ENgligh" << endl;
+    }else if (languageOption == 1){
+        cout << "French fries" << endl;
+        settingModel->setStringList(SettingPageListModelFrench);
+        programMenuModel->setStringList(ProgramPageListModelFrench);
+        freqModel->setStringList(FreqPageFrench);
+        mainMenuModel->setStringList(MainPageListModelFrench);
+
+    }
+
+
+
+
+
 }
 
 void DenaSimulator::setCountdown(){

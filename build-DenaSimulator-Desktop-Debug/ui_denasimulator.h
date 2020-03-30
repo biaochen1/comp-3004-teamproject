@@ -49,6 +49,7 @@ public:
     QLabel *counterLabel;
     QLineEdit *timerText;
     QPushButton *touchSkinButton;
+    QTableView *languageMenu;
     QMenuBar *menubar;
     QMenu *menuDENA2;
     QMenu *menuSimulator;
@@ -58,7 +59,7 @@ public:
     {
         if (DenaSimulator->objectName().isEmpty())
             DenaSimulator->setObjectName(QStringLiteral("DenaSimulator"));
-        DenaSimulator->resize(494, 978);
+        DenaSimulator->resize(446, 978);
         QFont font;
         font.setPointSize(20);
         DenaSimulator->setFont(font);
@@ -142,10 +143,34 @@ public:
         touchSkinButton->setObjectName(QStringLiteral("touchSkinButton"));
         touchSkinButton->setGeometry(QRect(400, 20, 61, 141));
         touchSkinButton->setFont(font3);
+        languageMenu = new QTableView(centralwidget);
+        languageMenu->setObjectName(QStringLiteral("languageMenu"));
+        languageMenu->setGeometry(QRect(100, 20, 281, 421));
         DenaSimulator->setCentralWidget(centralwidget);
+        downButton->raise();
+        rightButton->raise();
+        upButton->raise();
+        mainMenu->raise();
+        leftButton->raise();
+        confirmButton->raise();
+        powerButton->raise();
+        returnButton->raise();
+        mainMenuButton->raise();
+        settingsMenu->raise();
+        freqMenu->raise();
+        powerWidget->raise();
+        programMenu->raise();
+        treatmentWidget->raise();
+        touchSkinButton->raise();
+        powerLabel->raise();
+        powerLine->raise();
+        counterLabel->raise();
+        powerLabel->raise();
+        powerLine->raise();
+        languageMenu->raise();
         menubar = new QMenuBar(DenaSimulator);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 494, 37));
+        menubar->setGeometry(QRect(0, 0, 446, 33));
         menuDENA2 = new QMenu(menubar);
         menuDENA2->setObjectName(QStringLiteral("menuDENA2"));
         menuSimulator = new QMenu(menubar);
