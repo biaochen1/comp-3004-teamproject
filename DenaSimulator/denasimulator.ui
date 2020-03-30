@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>978</height>
+    <width>460</width>
+    <height>996</height>
    </rect>
   </property>
   <property name="font">
@@ -22,8 +22,8 @@
    <widget class="QPushButton" name="downButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>780</y>
+      <x>190</x>
+      <y>870</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -31,7 +31,15 @@
     <property name="font">
      <font>
       <pointsize>36</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Down</string>
     </property>
     <property name="text">
      <string>↓</string>
@@ -40,8 +48,8 @@
    <widget class="QPushButton" name="rightButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>650</y>
+      <x>320</x>
+      <y>740</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -49,7 +57,15 @@
     <property name="font">
      <font>
       <pointsize>36</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>RIght</string>
     </property>
     <property name="text">
      <string>→</string>
@@ -58,8 +74,8 @@
    <widget class="QPushButton" name="upButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>520</y>
+      <x>190</x>
+      <y>610</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -67,7 +83,15 @@
     <property name="font">
      <font>
       <pointsize>36</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Up</string>
     </property>
     <property name="text">
      <string>↑</string>
@@ -76,18 +100,18 @@
    <widget class="QTableView" name="mainMenu">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>20</y>
-      <width>281</width>
-      <height>421</height>
+      <width>441</width>
+      <height>461</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="leftButton">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>650</y>
+      <x>60</x>
+      <y>740</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -95,7 +119,15 @@
     <property name="font">
      <font>
       <pointsize>36</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Left</string>
     </property>
     <property name="text">
      <string>←</string>
@@ -104,8 +136,8 @@
    <widget class="QPushButton" name="confirmButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>650</y>
+      <x>190</x>
+      <y>740</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -113,7 +145,12 @@
     <property name="font">
      <font>
       <pointsize>24</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>OK</string>
@@ -123,15 +160,23 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>920</y>
       <width>61</width>
-      <height>141</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Power</string>
     </property>
     <property name="text">
      <string>On/Off</string>
@@ -140,8 +185,8 @@
    <widget class="QPushButton" name="returnButton">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>460</y>
+      <x>60</x>
+      <y>560</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -155,6 +200,9 @@
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Return</string>
     </property>
     <property name="text">
      <string>↺</string>
@@ -163,8 +211,8 @@
    <widget class="QPushButton" name="mainMenuButton">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>460</y>
+      <x>320</x>
+      <y>560</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -179,6 +227,9 @@
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+    <property name="toolTip">
+     <string>Options</string>
+    </property>
     <property name="text">
      <string>≡</string>
     </property>
@@ -186,20 +237,20 @@
    <widget class="QTableView" name="settingsMenu">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>20</y>
-      <width>281</width>
-      <height>421</height>
+      <width>441</width>
+      <height>461</height>
      </rect>
     </property>
    </widget>
    <widget class="QTableView" name="freqMenu">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>20</y>
-      <width>281</width>
-      <height>421</height>
+      <width>441</width>
+      <height>461</height>
      </rect>
     </property>
    </widget>
@@ -225,7 +276,7 @@
     <widget class="QLabel" name="powerLabel">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>-10</x>
        <y>0</y>
        <width>281</width>
        <height>71</height>
@@ -235,21 +286,24 @@
       <string>Power</string>
      </property>
     </widget>
+    <zorder>powerLine</zorder>
+    <zorder>powerLabel</zorder>
+    <zorder>treatmentWidget</zorder>
    </widget>
    <widget class="QTableView" name="programMenu">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>20</y>
-      <width>281</width>
-      <height>421</height>
+      <width>441</width>
+      <height>461</height>
      </rect>
     </property>
    </widget>
    <widget class="QWidget" name="treatmentWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>90</x>
       <y>20</y>
       <width>281</width>
       <height>141</height>
@@ -258,7 +312,7 @@
     <widget class="QLabel" name="counterLabel">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>0</y>
        <width>281</width>
        <height>71</height>
@@ -271,9 +325,9 @@
     <widget class="QLineEdit" name="timerText">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>60</y>
-       <width>281</width>
+       <x>-20</x>
+       <y>70</y>
+       <width>321</width>
        <height>81</height>
       </rect>
      </property>
@@ -285,16 +339,24 @@
    <widget class="QPushButton" name="touchSkinButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>20</y>
-      <width>61</width>
-      <height>141</height>
+      <x>60</x>
+      <y>500</y>
+      <width>341</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Sensor</string>
     </property>
     <property name="text">
      <string>touch 
@@ -305,41 +367,41 @@
    <widget class="QTableView" name="languageMenu">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>20</y>
-      <width>281</width>
-      <height>421</height>
+      <width>441</width>
+      <height>461</height>
      </rect>
     </property>
    </widget>
+   <zorder>treatmentWidget</zorder>
+   <zorder>mainMenu</zorder>
+   <zorder>settingsMenu</zorder>
+   <zorder>freqMenu</zorder>
+   <zorder>programMenu</zorder>
+   <zorder>languageMenu</zorder>
    <zorder>downButton</zorder>
    <zorder>rightButton</zorder>
    <zorder>upButton</zorder>
-   <zorder>mainMenu</zorder>
    <zorder>leftButton</zorder>
    <zorder>confirmButton</zorder>
    <zorder>powerButton</zorder>
    <zorder>returnButton</zorder>
    <zorder>mainMenuButton</zorder>
-   <zorder>settingsMenu</zorder>
-   <zorder>freqMenu</zorder>
    <zorder>powerWidget</zorder>
-   <zorder>programMenu</zorder>
-   <zorder>treatmentWidget</zorder>
    <zorder>touchSkinButton</zorder>
    <zorder>powerLabel</zorder>
    <zorder>powerLine</zorder>
    <zorder>counterLabel</zorder>
    <zorder>powerLabel</zorder>
    <zorder>powerLine</zorder>
-   <zorder>languageMenu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>446</width>
+     <width>460</width>
      <height>33</height>
     </rect>
    </property>
@@ -356,7 +418,6 @@
    <addaction name="menuDENA2"/>
    <addaction name="menuSimulator"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

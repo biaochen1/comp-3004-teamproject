@@ -85,7 +85,7 @@ void DenaSimulator::init_main_page(){
 void DenaSimulator::init_frequency_page() {
     freqModel = new QStringListModel(this);
     FreqPageEnglish << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz" << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
-    FreqPageFrench << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz" << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
+    FreqPageFrench << "1,0-9,9 Hz" << "10 Hz" << "20 Hz" << "60 Hz" << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
 
     freqModel->setStringList(FreqPageEnglish);
 
@@ -112,8 +112,7 @@ void DenaSimulator::init_programs_page(){
     programMenuModel = new QStringListModel(this);
     ProgramPageListModelEnglish << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
                                 << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
-    ProgramPageListModelFrench << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
-                               << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
+    ProgramPageListModelFrench << "ALLERGIE"<<"DOULEUR"<<"INT.PAIN"<< "FLOTTANT"<<"DYSTONIA "<<"GYN.PAIN"<<"GYNECOLOGY"<<"HYPERTENSION"<<"HYPOTONIA"<<"TÊTE"<<"GORGE";
     programMenuModel->setStringList(ProgramPageListModelEnglish);
 
     for (int i = 0; i < ProgramPageListModelEnglish.size(); i++) {
@@ -420,9 +419,9 @@ void DenaSimulator::on_confirmButton_released()
     }else if(currentPage == LANGUAGE_PAGE) {
         cout << currentPage << endl;
         currentPage = SETTIGNS_PAGE; // Set the Current Page to back to SETTIGNS_PAGE = 40; DOESNT WORK MOST OF THE TIME!!!
-        int currentOptionLang = ui->languageMenu->currentIndex().row();
-        cout << "Option Chosen -" << currentOptionLang << endl;
-        setLanguage(currentOptionLang);
+        int languageOption= ui->languageMenu->currentIndex().row();
+        cout << "Option Chosen -" << languageOption << endl;
+        setLanguage(languageOption);
         ui->languageMenu->hide();
         ui->settingsMenu->show();
     }
@@ -449,11 +448,6 @@ void DenaSimulator::setLanguage(int languageOption){
         mainMenuModel->setStringList(MainPageListModelFrench);
 
     }
-
-
-
-
-
 }
 
 void DenaSimulator::setCountdown(){
