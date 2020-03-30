@@ -62,11 +62,20 @@ private:
     QStringListModel *languageModel;
     QStringList MainPageListModelEnglish;
     QStringList MainPageListModelFrench;
+    QStringList MainPageListModelSpanish;
+
     QStringList ProgramPageListModelEnglish;
     QStringList ProgramPageListModelFrench;
+    QStringList ProgramPageListModelSpanish;
+
     QStringList SettingPageListModel;
     QStringList SettingPageListModelFrench;
+    QStringList SettingPageListModelSpanish;
+
     QStringList LanguagePageListModel;
+    QStringList LanguagePageListModelFrench;
+    QStringList LanguagePageListModelSpanish;
+
     QStringListModel *freqModel;
     QStringList FreqPageEnglish;
     QStringList FreqPageFrench;

@@ -20,8 +20,8 @@ static int POWER_STATE = ON_STATE;
 static int currMenuOption = 0;
 static int currentPage = 0;
 
-static int ENGLISH = 0;
-static int FRENCH = 1;
+//static int ENGLISH = 0;
+//static int FRENCH = 1;
 
 DenaSimulator::DenaSimulator(QWidget *parent)
     : QMainWindow(parent)
@@ -62,7 +62,7 @@ void DenaSimulator::init_main_page(){
     mainMenuModel = new QStringListModel(this);
     MainPageListModelEnglish << "PROGRAMS" << "FREQUENCY" << "MED" << "SCREENING" << "CHILDREN" << "SETTINGS";    // English options
     MainPageListModelFrench << "PROGRAMMES" << "LA FRÉQUENCE" << "MED" << "DÉPISTAGE" << "ENFANTS" << "RÉGLAGES"; // French options
-
+    MainPageListModelSpanish << "PROGRAMAS"<< "FRECUENCIA"<< "MED"<< "EVALUACIÓN"<< "NIÑOS"<< "AJUSTES";
 
     mainMenuModel->setStringList(MainPageListModelEnglish);
 
@@ -113,6 +113,8 @@ void DenaSimulator::init_programs_page(){
     ProgramPageListModelEnglish << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
                                 << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
     ProgramPageListModelFrench << "ALLERGIE"<<"DOULEUR"<<"INT.PAIN"<< "FLOTTANT"<<"DYSTONIA "<<"GYN.PAIN"<<"GYNECOLOGY"<<"HYPERTENSION"<<"HYPOTONIA"<<"TÊTE"<<"GORGE";
+    ProgramPageListModelSpanish <<"ALERGIA"<< "DOLOR"<<
+    "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN" <<"GINECOLOGÍA" << "HIPERTENSIÓN" << "HIPOTONIA" << "CABEZA" <<"GARGANTA";
     programMenuModel->setStringList(ProgramPageListModelEnglish);
 
     for (int i = 0; i < ProgramPageListModelEnglish.size(); i++) {
@@ -138,6 +140,7 @@ void DenaSimulator::init_settings_page()
     settingModel = new QStringListModel(this);
     SettingPageListModel << "SOUND" << "BRIGHTNESS" << "ECONOMY" << "RECORDING" << "CLOCK" << "ALARM CLOCK" << "LANGUAGE" << "COLOUR";
     SettingPageListModelFrench << "DU SON" << "LUMINOSITÉ" << "ÉCONOMIE" << "ENREGISTREMENT" << "L'HORLOGE" << "RÉVEIL" << "LANGUE" << "COULEUR";
+    SettingPageListModelSpanish << "SONIDO" << "BRILLO" << "ECONOMÍA" << "GRABACIÓN" << "RELOJ" << "RELOJ DE ALARMA" << "IDIOMA" << "COLOR";
 
     settingModel->setStringList(SettingPageListModel);
 
@@ -161,8 +164,9 @@ void DenaSimulator::init_settings_page()
 
 void DenaSimulator::init_language_page(){
     languageModel = new QStringListModel(this);
-    LanguagePageListModel << "ENGLISH" << "FRANÇAIS" << "РУССКИЙ" << "NEDERLANDS";
-
+    LanguagePageListModel << "ENGLISH" << "FRENCH" << "SPANISH";
+    LanguagePageListModelFrench <<"ANGLAIS" <<"FRANÇAIS" << "ESPAGNOL";
+    LanguagePageListModelSpanish <<"INGLÉS" << "FRANCÉS" <<"ESPAÑOL";
     languageModel->setStringList(LanguagePageListModel);
 
     for (int i = 0; i < LanguagePageListModel.size(); i++) {
@@ -245,44 +249,6 @@ void DenaSimulator::on_upButton_clicked()
     }
 
     curView->selectRow(futureRow);
-
-    //    delete(curView);
-
-    //    if(!ui->mainMenu->isHidden()){
-    //        int currentRow = ui->mainMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->mainMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->freqMenu->isHidden()){
-    //        int currentRow = ui->freqMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->freqMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->settingsMenu->isHidden()){
-    //        int currentRow = ui->settingsMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->settingsMenu->selectRow(futureRow);
-    //    }
 }
 
 
@@ -439,14 +405,23 @@ void DenaSimulator::on_rightButton_clicked()
 
 void DenaSimulator::setLanguage(int languageOption){
     if(languageOption == 0){
-        cout << "ENgligh" << endl;
+        settingModel->setStringList(SettingPageListModel);
+        programMenuModel->setStringList(ProgramPageListModelEnglish);
+        freqModel->setStringList(FreqPageEnglish);
+        mainMenuModel->setStringList(MainPageListModelEnglish);
+        languageModel->setStringList(LanguagePageListModel);
     }else if (languageOption == 1){
-        cout << "French fries" << endl;
+        languageModel->setStringList(LanguagePageListModelFrench);
         settingModel->setStringList(SettingPageListModelFrench);
         programMenuModel->setStringList(ProgramPageListModelFrench);
         freqModel->setStringList(FreqPageFrench);
         mainMenuModel->setStringList(MainPageListModelFrench);
-
+    }else if(languageOption == 2){
+        languageModel->setStringList(LanguagePageListModelSpanish);
+        settingModel->setStringList(SettingPageListModelSpanish);
+        programMenuModel->setStringList(ProgramPageListModelSpanish);
+        freqModel->setStringList(FreqPageEnglish);
+        mainMenuModel->setStringList(MainPageListModelSpanish);
     }
 }
 
