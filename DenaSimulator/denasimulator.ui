@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
+    <width>1082</width>
     <height>978</height>
    </rect>
   </property>
@@ -81,6 +81,11 @@
       <width>281</width>
       <height>421</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QPushButton" name="leftButton">
@@ -192,6 +197,11 @@
       <height>421</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QTableView" name="freqMenu">
     <property name="geometry">
@@ -202,39 +212,11 @@
       <height>421</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QWidget" name="powerWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>20</y>
-      <width>281</width>
-      <height>141</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
-    <widget class="QLineEdit" name="powerLine">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>70</y>
-       <width>281</width>
-       <height>71</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="powerLabel">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>281</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Power</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QTableView" name="programMenu">
     <property name="geometry">
@@ -244,6 +226,11 @@
       <width>281</width>
       <height>421</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QWidget" name="treatmentWidget" native="true">
@@ -302,13 +289,64 @@
  start</string>
     </property>
    </widget>
+   <widget class="QWidget" name="powerWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>281</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="powerLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>281</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Power</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="powerBar">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>60</y>
+       <width>281</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </widget>
+   <zorder>treatmentWidget</zorder>
+   <zorder>downButton</zorder>
+   <zorder>rightButton</zorder>
+   <zorder>upButton</zorder>
+   <zorder>mainMenu</zorder>
+   <zorder>leftButton</zorder>
+   <zorder>confirmButton</zorder>
+   <zorder>powerButton</zorder>
+   <zorder>returnButton</zorder>
+   <zorder>mainMenuButton</zorder>
+   <zorder>settingsMenu</zorder>
+   <zorder>freqMenu</zorder>
+   <zorder>programMenu</zorder>
+   <zorder>touchSkinButton</zorder>
+   <zorder>powerWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>494</width>
+     <width>1082</width>
      <height>37</height>
     </rect>
    </property>

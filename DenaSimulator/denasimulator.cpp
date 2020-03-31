@@ -11,7 +11,6 @@ const int ON_STATE = 1;
 const int MAIN_MENUS_PAGE = 0;
 const int PROGRAM_PAGE = 10;
 const int MED_PAGE = 20;
-const int TREATMENT_PAGE = 21;
 const int FREQUENCY_PAGE = 30;
 const int SETTIGNS_PAGE = 40;
 
@@ -40,10 +39,14 @@ DenaSimulator::DenaSimulator(QWidget *parent)
 
     ui->powerWidget->setVisible(false);
     ui->powerLabel->setAlignment(Qt::AlignCenter);
+    ui->powerBar->setRange(1, 20);
+    ui->powerBar->setValue(1);
+    ui->powerBar->setFormat("%v");
 
 
     ui->treatmentWidget->setVisible(false);
     ui->counterLabel->setAlignment(Qt::AlignCenter);
+    ui->timerText->setAlignment(Qt::AlignCenter);
 }
 
 DenaSimulator::~DenaSimulator()
@@ -299,19 +302,72 @@ void DenaSimulator::on_powerButton_released()
     else {
         POWER_STATE = OFF_STATE;
         //change the display to show black screen
-        ui->mainMenu->close();
-        ui->settingsMenu->close();
-        ui->freqMenu->close();
-        ui->programMenu->close();
-        ui->powerWidget->close();
-
+        closeAll();
     }
+}
+
+void DenaSimulator::closeAll(){
+    ui->mainMenu->close();
+    ui->settingsMenu->close();
+    ui->freqMenu->close();
+    ui->programMenu->close();
+    ui->powerWidget->close();
+    ui->treatmentWidget->close();
 }
 
 void DenaSimulator::on_returnButton_clicked()
 {
+    if(ui->treatmentWidget->isVisible()){
+        delete treatmentQTimer;
+        delete treatmentQTime;
+        hideAll();
+
+        switch(currentPage){
+        case PROGRAM_PAGE:
+            ui->programMenu->show();
+            break;
+        case FREQUENCY_PAGE:
+            ui->freqMenu->show();
+            break;
+        case MED_PAGE:
+            ui->mainMenu->show();
+            break;
+        default:
+            ui->mainMenu->show();
+            break;
+        }
+    } else if(ui->powerWidget->isVisible()){
+        hideAll();
+
+        switch(currentPage){
+        case PROGRAM_PAGE:
+            ui->programMenu->show();
+            break;
+        case FREQUENCY_PAGE:
+            ui->freqMenu->show();
+            break;
+        case MED_PAGE:
+            ui->mainMenu->show();
+            break;
+        default:
+            ui->mainMenu->show();
+            break;
+        }
+    } else {
+        hideAll();
+        switch(currentPage){
+        case PROGRAM_PAGE:
+        case FREQUENCY_PAGE:
+        case MED_PAGE:
+        default:
+            currentPage = MAIN_MENUS_PAGE;
+            ui->mainMenu->show();
+            break;
+        }
+    }
+
     if (currentPage != OFF_STATE){
-        currentPage -= 1;
+//        currentPage -= 1;
         //change the display to previous screen
     }
 }
@@ -320,11 +376,6 @@ void DenaSimulator::on_mainMenuButton_clicked()
 {
     if (currentPage != OFF_STATE) {
         currentPage = MAIN_MENUS_PAGE;
-        ui->mainMenu->hide();
-        ui->settingsMenu->hide();
-        ui->freqMenu->hide();
-        ui->programMenu->hide();
-        ui->powerWidget->hide();
 
         ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
@@ -332,13 +383,17 @@ void DenaSimulator::on_mainMenuButton_clicked()
     }
 }
 
-void DenaSimulator::treatmentActive(){
-    if (currentPage==MED_PAGE) {
-        currentPage = TREATMENT_PAGE;
-    }
-    if (currentPage == TREATMENT_PAGE) {
-        //update the timer as the treatment button is held down
-    }
+void DenaSimulator::hideAll(){
+    ui->mainMenu->hide();
+    ui->settingsMenu->hide();
+    ui->freqMenu->hide();
+    ui->programMenu->hide();
+    ui->powerWidget->hide();
+    ui->treatmentWidget->hide();
+}
+
+void DenaSimulator::medTreatmentActive(){
+
 }
 
 void DenaSimulator::handle_main_page_selection(int currentOption){
@@ -365,36 +420,32 @@ void DenaSimulator::handle_main_page_selection(int currentOption){
     }
 }
 
-void DenaSimulator::on_confirmButton_released()
-{
-    if(currentPage == MAIN_MENUS_PAGE) {
-        cout << "Enter Button | ";
-        int currentOption = ui->mainMenu->currentIndex().row();
-
-
-        cout << "Option Index :" << currentOption << endl;
-        handle_main_page_selection(currentOption);
-    } else if (currentPage == PROGRAM_PAGE) {
-        ui->programMenu->hide();
-        ui->powerWidget->show();
-        ui->powerLine->setText("1");
-    }
-}
-
 void DenaSimulator::on_rightButton_clicked()
 {
     if (currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()) {
-        int power = ui->powerLine->text().toInt();
-        if(power < 40){
-            ui->powerLine->setText(QString::number(power +1));
+        int power = ui->powerBar->value();
+        cout << power << endl;
+        if (power < ui->powerBar->maximum()) {
+            ui->powerBar->setValue(power + 1);
+        }
+    }
+}
+
+void DenaSimulator::on_leftButton_clicked()
+{
+    if (currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()) {
+        int power = ui->powerBar->value();
+        cout << power << endl;
+        if (power > ui->powerBar->minimum()) {
+            ui->powerBar->setValue(power - 1);
         }
     }
 }
 
 void DenaSimulator::setCountdown(){
-    countdownTime->setHMS (0, countdownTime->addSecs (-1).minute (), countdownTime->addSecs (-1).second ());
+    treatmentQTime->setHMS (0, treatmentQTime->addSecs (-1).minute (), treatmentQTime->addSecs (-1).second ());
 
-    ui->timerText->setText(countdownTime->toString());
+    ui->timerText->setText(treatmentQTime->toString());
 }
 
 void DenaSimulator::on_touchSkinButton_clicked()
@@ -402,10 +453,24 @@ void DenaSimulator::on_touchSkinButton_clicked()
     if(currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()){
         ui->powerWidget->hide();
         ui->treatmentWidget->show();
-        countdownTimer = new QTimer ();
-        countdownTime = new QTime (0, 10, 59);
+        treatmentQTimer = new QTimer ();
+        treatmentQTime = new QTime (0, 10, 59);
 
-        QObject :: connect (countdownTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
-        countdownTimer->start(1000);
+        QObject :: connect (treatmentQTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
+        treatmentQTimer->start(1000);
+    }
+}
+
+
+void DenaSimulator::on_confirmButton_clicked()
+{
+    if(currentPage == MAIN_MENUS_PAGE) {
+        cout << "Enter Button | ";
+        int currentOption = ui->mainMenu->currentIndex().row();
+        cout << "Option Index :" << currentOption << endl;
+        handle_main_page_selection(currentOption);
+    } else if (currentPage == PROGRAM_PAGE) {
+        ui->programMenu->hide();
+        ui->powerWidget->show();
     }
 }

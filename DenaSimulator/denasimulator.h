@@ -29,8 +29,6 @@ private slots:
 
     void on_mainMenuButton_clicked();
 
-    void on_confirmButton_released();
-
     void init_settings_page();
 
     void init_programs_page();
@@ -49,9 +47,15 @@ private slots:
 
     void on_touchSkinButton_clicked();
 
+    void on_leftButton_clicked();
+
+    void on_confirmButton_clicked();
+
 private:
     Ui::DenaSimulator *ui;
-    void treatmentActive();
+    void medTreatmentActive();
+    void hideAll();
+    void closeAll();
     QStringListModel *mainMenuModel;
     QStringListModel *programMenuModel;
     QStringListModel *settingModel;
@@ -64,7 +68,7 @@ private:
     QStringListModel *freqModel;
     QStringList FreqPageEnglish;
     QStringList FreqPageFrench;
-    QTimer *countdownTimer;
-    QTime *countdownTime;
+    QTimer *treatmentQTimer;
+    QTime *treatmentQTime;
 };
 #endif // DENASIMULATOR_H
