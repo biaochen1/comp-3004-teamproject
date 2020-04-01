@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1082</width>
+    <width>478</width>
     <height>978</height>
    </rect>
   </property>
@@ -325,6 +325,21 @@
      </property>
     </widget>
    </widget>
+   <widget class="QTableView" name="languageMenu">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>281</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+   </widget>
    <zorder>treatmentWidget</zorder>
    <zorder>downButton</zorder>
    <zorder>rightButton</zorder>
@@ -340,13 +355,14 @@
    <zorder>programMenu</zorder>
    <zorder>touchSkinButton</zorder>
    <zorder>powerWidget</zorder>
+   <zorder>languageMenu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1082</width>
+     <width>478</width>
      <height>37</height>
     </rect>
    </property>

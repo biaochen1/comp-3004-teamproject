@@ -5,6 +5,7 @@
 #include <QStringListModel>
 #include <QTimer>
 #include <QTime>
+#include <QElapsedTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class DenaSimulator; }
@@ -35,8 +36,6 @@ private slots:
 
     void init_frequency_page();
 
-    void init_med_page();
-
     void init_main_page();
 
     void handle_main_page_selection(int currentOption);
@@ -45,29 +44,47 @@ private slots:
 
     void setCountdown();
 
+    void setCountUp();
+
     void on_touchSkinButton_clicked();
 
     void on_leftButton_clicked();
 
     void on_confirmButton_clicked();
 
+    void init_language_page();
+
 private:
     Ui::DenaSimulator *ui;
     void medTreatmentActive();
     void hideAll();
     void closeAll();
+    bool isSettingPowerLevel();
+    void handle_settings_page_selection(int currentOption);
+    void handle_language_selection(int selection);
     QStringListModel *mainMenuModel;
     QStringListModel *programMenuModel;
     QStringListModel *settingModel;
+    QStringListModel *languageModel;
+
     QStringList MainPageListModelEnglish;
     QStringList MainPageListModelFrench;
+     QStringList MainPageListModelSpanish;
+
     QStringList ProgramPageListModelEnglish;
     QStringList ProgramPageListModelFrench;
+    QStringList ProgramPageListModelSpanish;
+
     QStringList SettingPageListModel;
     QStringList SettingPageListModelFrench;
+    QStringList SettingPageListModelSpanish;
+
+    QStringList LanguagePageListModel;
+    QStringList LanguagePageListModelFrench;
+    QStringList LanguagePageListModelSpanish;
+
     QStringListModel *freqModel;
     QStringList FreqPageEnglish;
-    QStringList FreqPageFrench;
     QTimer *treatmentQTimer;
     QTime *treatmentQTime;
 };

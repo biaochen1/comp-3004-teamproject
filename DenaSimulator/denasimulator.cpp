@@ -13,13 +13,10 @@ const int PROGRAM_PAGE = 10;
 const int MED_PAGE = 20;
 const int FREQUENCY_PAGE = 30;
 const int SETTIGNS_PAGE = 40;
+const int LANGUAGE_PAGE = 41;
 
 static int POWER_STATE = ON_STATE;
-static int currMenuOption = 0;
 static int currentPage = 0;
-
-static int ENGLISH = 0;
-static int FRENCH = 1;
 
 DenaSimulator::DenaSimulator(QWidget *parent)
     : QMainWindow(parent)
@@ -35,18 +32,17 @@ DenaSimulator::DenaSimulator(QWidget *parent)
 
     init_programs_page();
 
-    init_med_page();
-
+    init_language_page();
     ui->powerWidget->setVisible(false);
     ui->powerLabel->setAlignment(Qt::AlignCenter);
     ui->powerBar->setRange(1, 20);
     ui->powerBar->setValue(1);
     ui->powerBar->setFormat("%v");
 
-
     ui->treatmentWidget->setVisible(false);
     ui->counterLabel->setAlignment(Qt::AlignCenter);
     ui->timerText->setAlignment(Qt::AlignCenter);
+    ui->timerText->setReadOnly(true);
 }
 
 DenaSimulator::~DenaSimulator()
@@ -54,14 +50,38 @@ DenaSimulator::~DenaSimulator()
     delete ui;
 }
 
-void DenaSimulator::init_med_page(){
 
+void DenaSimulator::init_language_page(){
+    languageModel = new QStringListModel(this);
+    LanguagePageListModel << "ENGLISH" << "FRENCH" << "SPANISH";
+    LanguagePageListModelFrench <<"ANGLAIS" <<"FRANÇAIS" << "ESPAGNOL";
+    LanguagePageListModelSpanish <<"INGLÉS" << "FRANCÉS" <<"ESPAÑOL";
+    languageModel->setStringList(LanguagePageListModel);
+
+    for (int i = 0; i < LanguagePageListModel.size(); i++) {
+        languageModel->setData(languageModel->index(i, 0), Qt::AlignRight, Qt::TextAlignmentRole);
+        languageModel->setData(languageModel->index(0, i), Qt::AlignRight, Qt::TextAlignmentRole);
+    }
+
+    ui->languageMenu->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->languageMenu->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+    ui->languageMenu->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui -> languageMenu->horizontalHeader()->hide();
+    ui -> languageMenu->setShowGrid(false);
+    ui -> languageMenu -> setModel(languageModel);
+    ui -> languageMenu->verticalHeader()->hide();
+    ui->languageMenu->selectRow(0);
+    ui->languageMenu->close(); // by default hiding this one
 }
 
 void DenaSimulator::init_main_page(){
     mainMenuModel = new QStringListModel(this);
     MainPageListModelEnglish << "PROGRAMS" << "FREQUENCY" << "MED" << "SCREENING" << "CHILDREN" << "SETTINGS";
     MainPageListModelFrench << "PROGRAMMES" << "LA FRÉQUENCE" << "MED" << "DÉPISTAGE" << "ENFANTS" << "RÉGLAGES";
+    MainPageListModelSpanish << "PROGRAMAS"<< "FRECUENCIA"<< "DEM"<< "EVALUACIÓN"<< "NIÑOS"<< "AJUSTES";
+
     mainMenuModel->setStringList(MainPageListModelEnglish);
 
     for (int i = 0; i < MainPageListModelEnglish.size(); i++) {
@@ -84,8 +104,6 @@ void DenaSimulator::init_frequency_page() {
     freqModel = new QStringListModel(this);
     FreqPageEnglish << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz"
                     << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
-    FreqPageFrench << "1.0-9.9 Hz" << "10 Hz" << "20 Hz" << "60 Hz"
-                   << "77 Hz" << "125 Hz" << "140 Hz" << "200 Hz" << "7710" << "7720" << "77AM";
 
     freqModel->setStringList(FreqPageEnglish);
 
@@ -114,6 +132,9 @@ void DenaSimulator::init_programs_page(){
                                 << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
     ProgramPageListModelFrench << "ALLERGY" << "PAIN" << "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN"<<"GYNECOLOGY"
                                << "HYPERTENSION"<<"HYPOTONIA" << "HEAD"<<"THROAT";
+    ProgramPageListModelSpanish <<"ALERGIA"<< "DOLOR"<<
+                                  "INT.PAIN" << "BLOATING" << "DYSTONIA" << "GYN.PAIN" <<"GINECOLOGÍA" << "HIPERTENSIÓN" << "HIPOTONIA" << "CABEZA" <<"GARGANTA";
+
     programMenuModel->setStringList(ProgramPageListModelEnglish);
 
     for (int i = 0; i < ProgramPageListModelEnglish.size(); i++) {
@@ -139,6 +160,7 @@ void DenaSimulator::init_settings_page()
     settingModel = new QStringListModel(this);
     SettingPageListModel << "SOUND" << "BRIGHTNESS" << "ECONOMY" << "RECORDING" << "CLOCK" << "ALARM CLOCK" << "LANGUAGE" << "COLOUR";
     SettingPageListModelFrench << "DU SON" << "LUMINOSITÉ" << "ÉCONOMIE" << "ENREGISTREMENT" << "L'HORLOGE" << "RÉVEIL" << "LANGUE" << "COULEUR";
+    SettingPageListModelSpanish << "SONIDO" << "BRILLO" << "ECONOMÍA" << "GRABACIÓN" << "RELOJ" << "RELOJ DE ALARMA" << "IDIOMA" << "COLOR";
 
     settingModel->setStringList(SettingPageListModel);
 
@@ -177,6 +199,9 @@ void DenaSimulator::on_downButton_clicked()
     }else if (!ui -> programMenu -> isHidden()) {
         curView = ui->programMenu;
         curList =ProgramPageListModelEnglish;
+    }else if (!ui->languageMenu->isHidden()){
+        curView = ui->languageMenu;
+        curList = LanguagePageListModel;
     }
 
     int currentRow = curView->currentIndex().row();
@@ -187,42 +212,6 @@ void DenaSimulator::on_downButton_clicked()
     }
 
     curView->selectRow(futureRow);
-    //    delete(curView);
-    //    if(!ui->mainMenu->isHidden()){
-    //        int currentRow = ui->mainMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow < MainPageListModelEnglish.size() - 1) {
-    //            futureRow++;
-    //        }
-
-    //        ui->mainMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->settingsMenu->isHidden()){
-    //        int currentRow = ui->settingsMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow < SettingPageListModel.size() - 1) {
-    //            futureRow++;
-    //        }
-
-    //        ui->settingsMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->freqMenu->isHidden()){
-    //        int currentRow = ui->freqMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow < FreqPageEnglish.size() - 1) {
-    //            futureRow++;
-    //        }
-
-    //        ui->freqMenu->selectRow(futureRow);
-    //    }
 }
 
 void DenaSimulator::on_upButton_clicked()
@@ -238,6 +227,8 @@ void DenaSimulator::on_upButton_clicked()
         curView = ui->freqMenu;
     } else if (!ui -> programMenu -> isHidden()) {
         curView = ui->programMenu;
+    } else if (!ui->languageMenu->isHidden()){
+        curView = ui->languageMenu;
     }
 
     int currentRow = curView->currentIndex().row();
@@ -248,44 +239,6 @@ void DenaSimulator::on_upButton_clicked()
     }
 
     curView->selectRow(futureRow);
-
-    //    delete(curView);
-
-    //    if(!ui->mainMenu->isHidden()){
-    //        int currentRow = ui->mainMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->mainMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->freqMenu->isHidden()){
-    //        int currentRow = ui->freqMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->freqMenu->selectRow(futureRow);
-    //    }
-
-    //    if(!ui->settingsMenu->isHidden()){
-    //        int currentRow = ui->settingsMenu->currentIndex().row();
-
-    //        int futureRow = currentRow;
-
-    //        if(currentRow > 0) {
-    //            futureRow--;
-    //        }
-
-    //        ui->settingsMenu->selectRow(futureRow);
-    //    }
 }
 
 
@@ -315,60 +268,90 @@ void DenaSimulator::closeAll(){
     ui->treatmentWidget->close();
 }
 
+void DenaSimulator::on_confirmButton_clicked()
+{
+    if(currentPage == MAIN_MENUS_PAGE) {
+        cout << "Enter Button | ";
+        int currentOption = ui->mainMenu->currentIndex().row();
+        cout << "Option Index :" << currentOption << endl;
+        handle_main_page_selection(currentOption);
+    } else if (currentPage == PROGRAM_PAGE) {
+        ui->programMenu->hide();
+        ui->powerWidget->show();
+    }else if (currentPage == FREQUENCY_PAGE) {
+        ui->freqMenu->hide();
+        ui->powerWidget->show();
+    } else if (currentPage == SETTIGNS_PAGE) {
+        int currentOption = ui->settingsMenu->currentIndex().row();
+        handle_settings_page_selection(currentOption);
+    } else if (currentPage == LANGUAGE_PAGE) {
+        int currentOption = ui->languageMenu->currentIndex().row();
+        handle_language_selection(currentOption);
+    }
+}
+
 void DenaSimulator::on_returnButton_clicked()
 {
-    if(ui->treatmentWidget->isVisible()){
-        delete treatmentQTimer;
-        delete treatmentQTime;
-        hideAll();
-
-        switch(currentPage){
-        case PROGRAM_PAGE:
-            ui->programMenu->show();
-            break;
-        case FREQUENCY_PAGE:
-            ui->freqMenu->show();
-            break;
-        case MED_PAGE:
-            ui->mainMenu->show();
-            break;
-        default:
-            ui->mainMenu->show();
-            break;
-        }
-    } else if(ui->powerWidget->isVisible()){
-        hideAll();
-
-        switch(currentPage){
-        case PROGRAM_PAGE:
-            ui->programMenu->show();
-            break;
-        case FREQUENCY_PAGE:
-            ui->freqMenu->show();
-            break;
-        case MED_PAGE:
-            ui->mainMenu->show();
-            break;
-        default:
-            ui->mainMenu->show();
-            break;
-        }
-    } else {
-        hideAll();
-        switch(currentPage){
-        case PROGRAM_PAGE:
-        case FREQUENCY_PAGE:
-        case MED_PAGE:
-        default:
-            currentPage = MAIN_MENUS_PAGE;
-            ui->mainMenu->show();
-            break;
-        }
-    }
-
     if (currentPage != OFF_STATE){
-//        currentPage -= 1;
-        //change the display to previous screen
+        ui->powerBar->setValue(1);
+        if(ui->treatmentWidget->isVisible()){
+            delete treatmentQTimer;
+            delete treatmentQTime;
+            ui->timerText->clear();
+            hideAll();
+
+            switch(currentPage){
+            case PROGRAM_PAGE:
+                ui->programMenu->show();
+                break;
+            case FREQUENCY_PAGE:
+                ui->freqMenu->show();
+                break;
+            case MED_PAGE:
+                ui->mainMenu->show();
+                currentPage = MAIN_MENUS_PAGE;
+                break;
+            default:
+                ui->mainMenu->show();
+                currentPage = MAIN_MENUS_PAGE;
+                break;
+            }
+        } else if(ui->powerWidget->isVisible()){
+            hideAll();
+
+            switch(currentPage){
+            case PROGRAM_PAGE:
+                ui->programMenu->show();
+                break;
+            case FREQUENCY_PAGE:
+                ui->freqMenu->show();
+                break;
+            case MED_PAGE:
+                ui->mainMenu->show();
+                currentPage = MAIN_MENUS_PAGE;
+                break;
+            default:
+                ui->mainMenu->show();
+                currentPage = MAIN_MENUS_PAGE;
+                break;
+            }
+        }else if(ui->languageMenu->isVisible()){
+            hideAll();
+
+            ui->settingsMenu->show();
+            currentPage = SETTIGNS_PAGE;
+        }else {
+            hideAll();
+            switch(currentPage){
+            case PROGRAM_PAGE:
+            case FREQUENCY_PAGE:
+            case MED_PAGE:
+            default:
+                currentPage = MAIN_MENUS_PAGE;
+                ui->mainMenu->show();
+                break;
+            }
+        }
     }
 }
 
@@ -390,10 +373,46 @@ void DenaSimulator::hideAll(){
     ui->programMenu->hide();
     ui->powerWidget->hide();
     ui->treatmentWidget->hide();
+    ui->languageMenu->hide();
 }
 
 void DenaSimulator::medTreatmentActive(){
 
+}
+
+void DenaSimulator::handle_settings_page_selection(int currentOption){
+    if(currentOption == 6) {
+        currentPage = LANGUAGE_PAGE;
+        ui->settingsMenu->hide();
+        ui->languageMenu->show();
+    }
+}
+
+void DenaSimulator::handle_language_selection(int selection)
+{
+    cout <<"wtf ! "<<endl;
+    if (selection == 0) {
+        mainMenuModel->setStringList(MainPageListModelEnglish);
+        settingModel->setStringList(SettingPageListModel);
+        programMenuModel->setStringList(ProgramPageListModelEnglish);
+        languageModel->setStringList(LanguagePageListModel);
+    } else if (selection == 1) {
+        mainMenuModel->setStringList(MainPageListModelFrench);
+        settingModel->setStringList(SettingPageListModelFrench);
+        programMenuModel->setStringList(ProgramPageListModelFrench);
+        languageModel->setStringList(LanguagePageListModelFrench);
+    } else if (selection == 2) {
+        mainMenuModel->setStringList(MainPageListModelSpanish);
+        settingModel->setStringList(SettingPageListModelSpanish);
+        programMenuModel->setStringList(ProgramPageListModelSpanish);
+        languageModel->setStringList(LanguagePageListModelSpanish);
+    }
+
+
+    ui->languageMenu->selectRow(0);
+    ui->settingsMenu->selectRow(0);
+    ui->mainMenu->selectRow(0);
+    ui->programMenu->selectRow(0);
 }
 
 void DenaSimulator::handle_main_page_selection(int currentOption){
@@ -412,7 +431,8 @@ void DenaSimulator::handle_main_page_selection(int currentOption){
         currentPage = SETTIGNS_PAGE;
     } else if(currentOption == 2){
         currentPage = MED_PAGE;
-        //change the display to the med screen
+        ui->mainMenu->hide();
+        ui->powerWidget->show();
     } else if (currentOption == 0) {
         ui->mainMenu->hide();
         ui->programMenu->show();
@@ -422,7 +442,7 @@ void DenaSimulator::handle_main_page_selection(int currentOption){
 
 void DenaSimulator::on_rightButton_clicked()
 {
-    if (currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()) {
+    if (isSettingPowerLevel()) {
         int power = ui->powerBar->value();
         cout << power << endl;
         if (power < ui->powerBar->maximum()) {
@@ -433,7 +453,7 @@ void DenaSimulator::on_rightButton_clicked()
 
 void DenaSimulator::on_leftButton_clicked()
 {
-    if (currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()) {
+    if (isSettingPowerLevel()) {
         int power = ui->powerBar->value();
         cout << power << endl;
         if (power > ui->powerBar->minimum()) {
@@ -448,29 +468,36 @@ void DenaSimulator::setCountdown(){
     ui->timerText->setText(treatmentQTime->toString());
 }
 
+void DenaSimulator::setCountUp() {
+    treatmentQTime->setHMS (0, treatmentQTime->addSecs (1).minute (), treatmentQTime->addSecs (1).second ());
+
+    ui->timerText->setText(treatmentQTime->toString());
+}
+
 void DenaSimulator::on_touchSkinButton_clicked()
 {
-    if(currentPage == PROGRAM_PAGE && ui->powerWidget->isVisible()){
+    treatmentQTimer = new QTimer ();
+
+    if ((currentPage == PROGRAM_PAGE || currentPage == FREQUENCY_PAGE)&& ui->powerWidget->isVisible()) {
+        ui->powerWidget->hide();
+        ui->treatmentWidget->show();
+        treatmentQTime = new QTime (0, 9, 59);
+
+        QObject :: connect (treatmentQTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
+        treatmentQTimer->start(1000);
+    } else if (currentPage == MED_PAGE && ui->powerWidget->isVisible()){
         ui->powerWidget->hide();
         ui->treatmentWidget->show();
         treatmentQTimer = new QTimer ();
-        treatmentQTime = new QTime (0, 10, 59);
+        treatmentQTime = new QTime (0, 0, 00);
 
-        QObject :: connect (treatmentQTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
+        QObject :: connect (treatmentQTimer, SIGNAL (timeout()), this, SLOT (setCountUp ()));
         treatmentQTimer->start(1000);
     }
 }
 
-
-void DenaSimulator::on_confirmButton_clicked()
+bool DenaSimulator::isSettingPowerLevel()
 {
-    if(currentPage == MAIN_MENUS_PAGE) {
-        cout << "Enter Button | ";
-        int currentOption = ui->mainMenu->currentIndex().row();
-        cout << "Option Index :" << currentOption << endl;
-        handle_main_page_selection(currentOption);
-    } else if (currentPage == PROGRAM_PAGE) {
-        ui->programMenu->hide();
-        ui->powerWidget->show();
-    }
+    return (currentPage == PROGRAM_PAGE || currentPage == FREQUENCY_PAGE || currentPage == MED_PAGE )&& ui->powerWidget->isVisible();
 }
+
