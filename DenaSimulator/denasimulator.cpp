@@ -251,10 +251,12 @@ void DenaSimulator::on_powerButton_released()
         //change the display to show menus
         ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
+        enable_Buttons();
     }
     else {
         POWER_STATE = OFF_STATE;
         //change the display to show black screen
+        disable_Buttons();
         closeAll();
     }
 }
@@ -409,6 +411,28 @@ void DenaSimulator::handle_language_selection(int selection)
     ui->settingsMenu->selectRow(0);
     ui->mainMenu->selectRow(0);
     ui->programMenu->selectRow(0);
+}
+
+void DenaSimulator::disable_Buttons(){
+    ui->confirmButton->setEnabled(false);
+    ui->returnButton->setEnabled(false);
+    ui->rightButton->setEnabled(false);
+    ui->leftButton->setEnabled(false);
+    ui->upButton->setEnabled(false);
+    ui->downButton->setEnabled(false);
+    ui->mainMenuButton->setEnabled(false);
+
+}
+
+void DenaSimulator::enable_Buttons(){
+    ui->confirmButton->setEnabled(true);
+    ui->returnButton->setEnabled(true);
+    ui->rightButton->setEnabled(true);
+    ui->leftButton->setEnabled(true);
+    ui->upButton->setEnabled(true);
+    ui->downButton->setEnabled(true);
+    ui->mainMenuButton->setEnabled(true);
+
 }
 
 void DenaSimulator::handle_main_page_selection(int currentOption){

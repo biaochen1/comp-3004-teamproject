@@ -54,6 +54,8 @@ private slots:
 
     void init_language_page();
 
+
+
 private:
     Ui::DenaSimulator *ui;
     void hideAll();
@@ -61,6 +63,8 @@ private:
     bool isSettingPowerLevel();
     void handle_settings_page_selection(int currentOption);
     void handle_language_selection(int selection);
+    void disable_Buttons();
+    void enable_Buttons();
     QStringListModel *mainMenuModel;
     QStringListModel *programMenuModel;
     QStringListModel *settingModel;
