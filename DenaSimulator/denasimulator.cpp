@@ -376,10 +376,6 @@ void DenaSimulator::hideAll(){
     ui->languageMenu->hide();
 }
 
-void DenaSimulator::medTreatmentActive(){
-
-}
-
 void DenaSimulator::handle_settings_page_selection(int currentOption){
     if(currentOption == 6) {
         currentPage = LANGUAGE_PAGE;
@@ -390,7 +386,7 @@ void DenaSimulator::handle_settings_page_selection(int currentOption){
 
 void DenaSimulator::handle_language_selection(int selection)
 {
-    cout <<"wtf ! "<<endl;
+
     if (selection == 0) {
         mainMenuModel->setStringList(MainPageListModelEnglish);
         settingModel->setStringList(SettingPageListModel);
@@ -463,13 +459,15 @@ void DenaSimulator::on_leftButton_clicked()
 }
 
 void DenaSimulator::setCountdown(){
-    treatmentQTime->setHMS (0, treatmentQTime->addSecs (-1).minute (), treatmentQTime->addSecs (-1).second ());
+    QTime t = treatmentQTime->addSecs (-1);
+    treatmentQTime->setHMS (0, t.minute (), t.second ());
 
     ui->timerText->setText(treatmentQTime->toString());
 }
 
 void DenaSimulator::setCountUp() {
-    treatmentQTime->setHMS (0, treatmentQTime->addSecs (1).minute (), treatmentQTime->addSecs (1).second ());
+    QTime t = treatmentQTime->addSecs (1);
+    treatmentQTime->setHMS (0, t.minute (), t.second ());
 
     ui->timerText->setText(treatmentQTime->toString());
 }
@@ -481,7 +479,7 @@ void DenaSimulator::on_touchSkinButton_clicked()
     if ((currentPage == PROGRAM_PAGE || currentPage == FREQUENCY_PAGE)&& ui->powerWidget->isVisible()) {
         ui->powerWidget->hide();
         ui->treatmentWidget->show();
-        treatmentQTime = new QTime (0, 9, 59);
+        treatmentQTime = new QTime (0, 10, 00);
 
         QObject :: connect (treatmentQTimer, SIGNAL (timeout ()), this, SLOT (setCountdown ()));
         treatmentQTimer->start(1000);

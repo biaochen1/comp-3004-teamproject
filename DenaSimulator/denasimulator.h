@@ -56,7 +56,6 @@ private slots:
 
 private:
     Ui::DenaSimulator *ui;
-    void medTreatmentActive();
     void hideAll();
     void closeAll();
     bool isSettingPowerLevel();
