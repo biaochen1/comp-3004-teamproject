@@ -7,6 +7,9 @@
 #include <QTime>
 #include <QElapsedTimer>
 
+#include <QMediaPlayer>
+#include <QDebug>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class DenaSimulator; }
 QT_END_NAMESPACE
@@ -94,5 +97,7 @@ private:
     QTimer *treatmentQTimer;
     QTime *treatmentQTime;
     QTimer *batteryTimer;
+
+    QMediaPlayer *buttonsound;
 };
 #endif // DENASIMULATOR_H

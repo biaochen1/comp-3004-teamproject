@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>buttonbeep.mp3</file>
+        <file>button.wav</file>
+    </qresource>
+</RCC>

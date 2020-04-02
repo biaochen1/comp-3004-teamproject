@@ -2,6 +2,8 @@
 #include "ui_denasimulator.h"
 #include <iostream>
 
+#include <QMediaPlayer>
+
 using namespace std;
 
 const int OFF_STATE = 0;
@@ -50,6 +52,9 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     batteryTimer = new QTimer(this);
     connect(batteryTimer, &QTimer::timeout, this, &DenaSimulator::updateBattery);
     batteryTimer->start(600000);
+
+    buttonsound = new QMediaPlayer();
+    buttonsound->setMedia(QUrl("qrc:/sounds/button.wav"));
 }
 
 DenaSimulator::~DenaSimulator()
@@ -231,6 +236,14 @@ void DenaSimulator::on_downButton_clicked()
     }
 
     curView->selectRow(futureRow);
+
+    //button sound on click
+    if(buttonsound->state() == QMediaPlayer::PlayingState){
+        buttonsound->setPosition(0);
+    }else if (buttonsound->state() == QMediaPlayer::StoppedState){
+        buttonsound->play();
+    }
+
 }
 
 void DenaSimulator::on_upButton_clicked()
@@ -258,6 +271,13 @@ void DenaSimulator::on_upButton_clicked()
     }
 
     curView->selectRow(futureRow);
+
+    //button sound on click
+    if(buttonsound->state() == QMediaPlayer::PlayingState){
+        buttonsound->setPosition(0);
+    }else if (buttonsound->state() == QMediaPlayer::StoppedState){
+        buttonsound->play();
+    }
 }
 
 // setting behaviors for simulating turning the machine on/off
@@ -511,6 +531,12 @@ void DenaSimulator::on_rightButton_clicked()
             batteryTimer->start(600000 - (27000 * power));
         }
     }
+    //button sound on click
+    if(buttonsound->state() == QMediaPlayer::PlayingState){
+        buttonsound->setPosition(0);
+    }else if (buttonsound->state() == QMediaPlayer::StoppedState){
+        buttonsound->play();
+    }
 }
 
 void DenaSimulator::on_leftButton_clicked()
@@ -522,6 +548,12 @@ void DenaSimulator::on_leftButton_clicked()
             ui->powerBar->setValue(power);
             batteryTimer->start(600000 - (27000 * power));
         }
+    }
+    //button sound on click
+    if(buttonsound->state() == QMediaPlayer::PlayingState){
+        buttonsound->setPosition(0);
+    }else if (buttonsound->state() == QMediaPlayer::StoppedState){
+        buttonsound->play();
     }
 }
 

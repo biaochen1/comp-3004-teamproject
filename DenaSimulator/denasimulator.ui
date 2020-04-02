@@ -258,7 +258,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Treatement</string>
+      <string>Treatment</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="timerText">
