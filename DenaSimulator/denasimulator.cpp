@@ -241,7 +241,7 @@ void DenaSimulator::on_upButton_clicked()
     curView->selectRow(futureRow);
 }
 
-
+// setting behaviors for simulating turning the machine on/off
 void DenaSimulator::on_powerButton_released()
 {
     cout << "Power Button" << endl;
@@ -270,6 +270,7 @@ void DenaSimulator::closeAll(){
     ui->treatmentWidget->close();
 }
 
+// behavior of confirm button for different pages
 void DenaSimulator::on_confirmButton_clicked()
 {
     if(currentPage == MAIN_MENUS_PAGE) {
@@ -292,6 +293,9 @@ void DenaSimulator::on_confirmButton_clicked()
     }
 }
 
+//setup different behaviors when return button is clicked. It almost works like a state machine
+//while the currentPage is actually the current system state. By observing the current state, we can tell
+//which menu we should return to.
 void DenaSimulator::on_returnButton_clicked()
 {
     if (currentPage != OFF_STATE){
@@ -448,6 +452,7 @@ void DenaSimulator::resetAllMenus()
     ui->programMenu->selectRow(0);
 }
 
+//define what page to go upon confirm button clicked in main page.
 void DenaSimulator::handle_main_page_selection(int currentOption){
     if(currentOption == 1 && currentPage == MAIN_MENUS_PAGE){
         cout << "Frequency Chosen" << endl;
@@ -509,6 +514,7 @@ void DenaSimulator::setCountUp() {
     ui->timerText->setText(treatmentQTime->toString());
 }
 
+//Utilize QTimer to setup timer countdown to trigger events
 void DenaSimulator::on_touchSkinButton_clicked()
 {
     treatmentQTimer = new QTimer ();
