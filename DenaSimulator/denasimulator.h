@@ -65,6 +65,7 @@ private:
     void handle_language_selection(int selection);
     void disable_Buttons();
     void enable_Buttons();
+    void resetAllMenus();
     QStringListModel *mainMenuModel;
     QStringListModel *programMenuModel;
     QStringListModel *settingModel;

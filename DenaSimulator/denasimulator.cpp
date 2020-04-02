@@ -359,12 +359,20 @@ void DenaSimulator::on_returnButton_clicked()
 
 void DenaSimulator::on_mainMenuButton_clicked()
 {
-    if (currentPage != OFF_STATE) {
+    if (currentPage != OFF_STATE){
+        ui->powerBar->setValue(1);
+        if(ui->treatmentWidget->isVisible()){
+            delete treatmentQTimer;
+            delete treatmentQTime;
+            ui->timerText->clear();
+        }
+        hideAll();
         currentPage = MAIN_MENUS_PAGE;
 
-        ui->mainMenu->selectRow(0);
+
+        resetAllMenus();
+
         ui->mainMenu->show();
-        //change the display to the main menu
     }
 }
 
@@ -407,10 +415,7 @@ void DenaSimulator::handle_language_selection(int selection)
     }
 
 
-    ui->languageMenu->selectRow(0);
-    ui->settingsMenu->selectRow(0);
-    ui->mainMenu->selectRow(0);
-    ui->programMenu->selectRow(0);
+    resetAllMenus();
 }
 
 void DenaSimulator::disable_Buttons(){
@@ -433,6 +438,14 @@ void DenaSimulator::enable_Buttons(){
     ui->downButton->setEnabled(true);
     ui->mainMenuButton->setEnabled(true);
 
+}
+
+void DenaSimulator::resetAllMenus()
+{
+    ui->languageMenu->selectRow(0);
+    ui->settingsMenu->selectRow(0);
+    ui->mainMenu->selectRow(0);
+    ui->programMenu->selectRow(0);
 }
 
 void DenaSimulator::handle_main_page_selection(int currentOption){
