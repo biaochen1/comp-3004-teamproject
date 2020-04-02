@@ -17,6 +17,7 @@ const int LANGUAGE_PAGE = 41;
 
 static int POWER_STATE = ON_STATE;
 static int currentPage = 0;
+static int batteryLevel = 100;
 
 DenaSimulator::DenaSimulator(QWidget *parent)
     : QMainWindow(parent)
@@ -43,6 +44,12 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui->counterLabel->setAlignment(Qt::AlignCenter);
     ui->timerText->setAlignment(Qt::AlignCenter);
     ui->timerText->setReadOnly(true);
+
+    ui->batteryLevel->setVisible(true);
+    ui->batteryLevel->setValue(batteryLevel);
+    batteryTimer = new QTimer(this);
+    connect(batteryTimer, &QTimer::timeout, this, &DenaSimulator::updateBattery);
+    batteryTimer->start(600000);
 }
 
 DenaSimulator::~DenaSimulator()
@@ -98,6 +105,18 @@ void DenaSimulator::init_main_page(){
     ui -> mainMenu -> setModel(mainMenuModel);
 
     ui->mainMenu->selectRow(0);
+}
+
+void DenaSimulator::updateBattery() {
+    if (POWER_STATE == ON_STATE) {
+        batteryLevel -= 1;
+        ui->batteryLevel->setValue(batteryLevel);
+        if (batteryLevel == 0) {
+            POWER_STATE = OFF_STATE;
+            closeAll();
+            disable_Buttons();
+        }
+    }
 }
 
 void DenaSimulator::init_frequency_page() {
@@ -245,12 +264,13 @@ void DenaSimulator::on_upButton_clicked()
 void DenaSimulator::on_powerButton_released()
 {
     cout << "Power Button" << endl;
-    if (POWER_STATE == OFF_STATE) {
+    if (POWER_STATE == OFF_STATE && batteryLevel > 0) {
         POWER_STATE = ON_STATE;
         currentPage = MAIN_MENUS_PAGE;
         //change the display to show menus
         ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
+        ui->batteryLevel->show();
         enable_Buttons();
     }
     else {
@@ -268,6 +288,7 @@ void DenaSimulator::closeAll(){
     ui->programMenu->close();
     ui->powerWidget->close();
     ui->treatmentWidget->close();
+    ui->batteryLevel->hide();
 }
 
 // behavior of confirm button for different pages
@@ -298,6 +319,7 @@ void DenaSimulator::on_confirmButton_clicked()
 //which menu we should return to.
 void DenaSimulator::on_returnButton_clicked()
 {
+    batteryTimer->start(600000);
     if (currentPage != OFF_STATE){
         ui->powerBar->setValue(1);
         if(ui->treatmentWidget->isVisible()){
@@ -363,6 +385,7 @@ void DenaSimulator::on_returnButton_clicked()
 
 void DenaSimulator::on_mainMenuButton_clicked()
 {
+    batteryTimer->start(600000);
     if (currentPage != OFF_STATE){
         ui->powerBar->setValue(1);
         if(ui->treatmentWidget->isVisible()){
@@ -481,10 +504,11 @@ void DenaSimulator::handle_main_page_selection(int currentOption){
 void DenaSimulator::on_rightButton_clicked()
 {
     if (isSettingPowerLevel()) {
-        int power = ui->powerBar->value();
+        int power = ui->powerBar->value() + 1;
         cout << power << endl;
         if (power < ui->powerBar->maximum()) {
-            ui->powerBar->setValue(power + 1);
+            ui->powerBar->setValue(power);
+            batteryTimer->start(600000 - (27000 * power));
         }
     }
 }
@@ -492,10 +516,11 @@ void DenaSimulator::on_rightButton_clicked()
 void DenaSimulator::on_leftButton_clicked()
 {
     if (isSettingPowerLevel()) {
-        int power = ui->powerBar->value();
+        int power = ui->powerBar->value() - 1;
         cout << power << endl;
         if (power > ui->powerBar->minimum()) {
-            ui->powerBar->setValue(power - 1);
+            ui->powerBar->setValue(power);
+            batteryTimer->start(600000 - (27000 * power));
         }
     }
 }

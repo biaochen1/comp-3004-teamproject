@@ -54,6 +54,8 @@ private slots:
 
     void init_language_page();
 
+    void updateBattery();
+
 
 
 private:
@@ -91,5 +93,6 @@ private:
     QStringList FreqPageEnglish;
     QTimer *treatmentQTimer;
     QTime *treatmentQTime;
+    QTimer *batteryTimer;
 };
 #endif // DENASIMULATOR_H
