@@ -17,7 +17,7 @@ const int LANGUAGE_PAGE = 41;
 
 static int POWER_STATE = ON_STATE;
 static int currentPage = 0;
-static int batteryLevel = 100;
+static int currentBatteryLevel = 100;
 
 DenaSimulator::DenaSimulator(QWidget *parent)
     : QMainWindow(parent)
@@ -46,10 +46,10 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui->timerText->setReadOnly(true);
 
     ui->batteryLevel->setVisible(true);
-    ui->batteryLevel->setValue(batteryLevel);
-    batteryTimer = new QTimer(this);
-    connect(batteryTimer, &QTimer::timeout, this, &DenaSimulator::updateBattery);
-    batteryTimer->start(600000);
+    ui->batteryLevel->setValue(currentBatteryLevel);
+    batteryTimer = new QTimer();
+    QObject :: connect (batteryTimer, SIGNAL (timeout ()), this, SLOT (updateBattery ()));
+    batteryTimer->start(2000);
 }
 
 DenaSimulator::~DenaSimulator()
@@ -109,12 +109,13 @@ void DenaSimulator::init_main_page(){
 
 void DenaSimulator::updateBattery() {
     if (POWER_STATE == ON_STATE) {
-        batteryLevel -= 1;
-        ui->batteryLevel->setValue(batteryLevel);
-        if (batteryLevel == 0) {
+        currentBatteryLevel -= 1;
+        ui->batteryLevel->setValue(currentBatteryLevel);
+        if (currentBatteryLevel == 0) {
             POWER_STATE = OFF_STATE;
             closeAll();
             disable_Buttons();
+            delete batteryTimer;
         }
     }
 }
@@ -264,13 +265,18 @@ void DenaSimulator::on_upButton_clicked()
 void DenaSimulator::on_powerButton_released()
 {
     cout << "Power Button" << endl;
-    if (POWER_STATE == OFF_STATE && batteryLevel > 0) {
+    if (POWER_STATE == OFF_STATE) {
+        currentBatteryLevel = 100;
         POWER_STATE = ON_STATE;
         currentPage = MAIN_MENUS_PAGE;
         //change the display to show menus
         ui->mainMenu->selectRow(0);
         ui->mainMenu->show();
         ui->batteryLevel->show();
+        ui->batteryLevel->setValue(currentBatteryLevel);
+        batteryTimer = new QTimer(this);
+        connect(batteryTimer, &QTimer::timeout, this, &DenaSimulator::updateBattery);
+        batteryTimer->start(3000);
         enable_Buttons();
     }
     else {
