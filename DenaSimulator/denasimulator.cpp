@@ -19,6 +19,8 @@ static int POWER_STATE = ON_STATE;
 static int currentPage = 0;
 static int currentBatteryLevel = 100;
 
+static int BATTERY_DRAIN_SPEED = 3000;
+
 DenaSimulator::DenaSimulator(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::DenaSimulator)
@@ -34,6 +36,7 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     init_programs_page();
 
     init_language_page();
+
     ui->powerWidget->setVisible(false);
     ui->powerLabel->setAlignment(Qt::AlignCenter);
     ui->powerBar->setRange(1, 20);
@@ -49,7 +52,7 @@ DenaSimulator::DenaSimulator(QWidget *parent)
     ui->batteryLevel->setValue(currentBatteryLevel);
     batteryTimer = new QTimer();
     QObject :: connect (batteryTimer, SIGNAL (timeout ()), this, SLOT (updateBattery ()));
-    batteryTimer->start(2000);
+    batteryTimer->start(BATTERY_DRAIN_SPEED);
 }
 
 DenaSimulator::~DenaSimulator()
@@ -266,7 +269,7 @@ void DenaSimulator::on_powerButton_released()
 {
     cout << "Power Button" << endl;
     if (POWER_STATE == OFF_STATE) {
-        currentBatteryLevel = 100;
+        currentBatteryLevel = currentBatteryLevel == 0 ? 100 : currentBatteryLevel; // if battery level is 0, user will recharge it back to 100%
         POWER_STATE = ON_STATE;
         currentPage = MAIN_MENUS_PAGE;
         //change the display to show menus
@@ -325,7 +328,6 @@ void DenaSimulator::on_confirmButton_clicked()
 //which menu we should return to.
 void DenaSimulator::on_returnButton_clicked()
 {
-    batteryTimer->start(600000);
     if (currentPage != OFF_STATE){
         ui->powerBar->setValue(1);
         if(ui->treatmentWidget->isVisible()){
@@ -391,7 +393,6 @@ void DenaSimulator::on_returnButton_clicked()
 
 void DenaSimulator::on_mainMenuButton_clicked()
 {
-    batteryTimer->start(600000);
     if (currentPage != OFF_STATE){
         ui->powerBar->setValue(1);
         if(ui->treatmentWidget->isVisible()){
@@ -514,7 +515,6 @@ void DenaSimulator::on_rightButton_clicked()
         cout << power << endl;
         if (power < ui->powerBar->maximum()) {
             ui->powerBar->setValue(power);
-            batteryTimer->start(600000 - (27000 * power));
         }
     }
 }
@@ -526,7 +526,6 @@ void DenaSimulator::on_leftButton_clicked()
         cout << power << endl;
         if (power > ui->powerBar->minimum()) {
             ui->powerBar->setValue(power);
-            batteryTimer->start(600000 - (27000 * power));
         }
     }
 }
